@@ -26,14 +26,14 @@ export const useUserStore = defineStore({
     getUser() {
       const dataUser = localStorage.getItem("user");
       if (dataUser) {
-        return JSON.parse(localStorage.getItem("user"));
+        return JSON.parse(localStorage.getItem("user") || "");
       }
       return [];
     },
     getStateLogin() {
       const login = localStorage.getItem("isLogin");
       if (login) {
-        return JSON.parse(localStorage.getItem("isLogin"));
+        return JSON.parse(localStorage.getItem("isLogin") || "");
       }
       return false;
     },
@@ -50,11 +50,11 @@ export const useUserStore = defineStore({
       };
       localStorage.removeItem("isLogin");
       localStorage.removeItem("user");
-      router.push("/register");
+      router.push("/login");
     },
     setIsLogin(state: boolean) {
       this.isLogin = state;
-      localStorage.setItem("isLogin", JSON.stringify(this.isLogin));
+      localStorage.setItem("isLogin", JSON.stringify(state));
     },
   },
 });

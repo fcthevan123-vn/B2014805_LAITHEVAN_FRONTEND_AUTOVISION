@@ -10,6 +10,10 @@ const AuthService = {
     const res = await axios.get(`/api/v1/auth/get-profile`);
     return res.data;
   },
+  async logout() {
+    const res = await axios.get("/api/v1/auth/logout");
+    return res.data;
+  },
 };
 
 export default AuthService;

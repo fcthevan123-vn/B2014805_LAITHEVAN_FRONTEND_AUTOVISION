@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
+    "@tabler/icons-vue": "^2.40.0",
     "axios": "^1.6.0",
     "pinia": "^2.1.7",
     "vee-validate": "^4.11.8",

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CarHomeCard from "../cards/CarHomeCard.vue";
+import ShoeHomeCard from "../cards/ShoeHomeCard.vue";
 </script>
 
 <template>
@@ -10,14 +10,15 @@ import CarHomeCard from "../cards/CarHomeCard.vue";
           <h1
             class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900"
           >
-            Một số mẫu xe
+            Một số mẫu giày
           </h1>
           <div class="h-1 w-40 bg-blue-500 rounded"></div>
         </div>
 
         <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">
-          Hãy khám phá danh mục xe của chúng tôi ngay hôm nay và bắt đầu cuộc
-          hành trình tới việc sở hữu chiếc xe mà bạn luôn mơ ước!
+          Website này đã xây dựng một danh tiếng mạnh mẽ trong việc cung cấp các
+          sản phẩm giày chất lượng và đa dạng, từ giày thể thao, giày thời trang
+          đến giày công nghệ cao và phụ kiện giày dép.
         </p>
 
         <p class="lg:w-1/2 w-full leading-relaxed text-gray-500"></p>
@@ -29,16 +30,16 @@ import CarHomeCard from "../cards/CarHomeCard.vue";
       </div>
       <div class="flex flex-wrap -m-4">
         <div class="xl:w-1/4 md:w-1/2 p-4">
-          <CarHomeCard />
+          <ShoeHomeCard />
         </div>
         <div class="xl:w-1/4 md:w-1/2 p-4">
-          <CarHomeCard />
+          <ShoeHomeCard />
         </div>
         <div class="xl:w-1/4 md:w-1/2 p-4">
-          <CarHomeCard />
+          <ShoeHomeCard />
         </div>
         <div class="xl:w-1/4 md:w-1/2 p-4">
-          <CarHomeCard />
+          <ShoeHomeCard />
         </div>
       </div>
     </div>

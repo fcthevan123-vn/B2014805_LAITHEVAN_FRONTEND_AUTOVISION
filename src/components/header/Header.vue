@@ -1,7 +1,60 @@
+<script setup lang="ts">
+import ConfirmModal from "../modals/ConfirmModal.vue";
+
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+} from "@headlessui/vue";
+
+import { ref } from "vue";
+import { onBeforeRouteUpdate } from "vue-router";
+import { useUserStore } from "../../stores/userStore";
+import { AuthService } from "../../services";
+const userStore = useUserStore();
+const userData = ref(userStore.getUser());
+const isLoggedIn = ref(userStore.getStateLogin());
+
+onBeforeRouteUpdate(() => {
+  userData.value = userStore.getUser();
+  isLoggedIn.value = userStore.getStateLogin();
+});
+
+const openModal = ref(false);
+
+function ToggleModal() {
+  openModal.value = !openModal.value;
+}
+
+async function handleLogout() {
+  try {
+    const res = await AuthService.logout();
+    if (res.statusCode === 0) {
+      isLoggedIn.value = false;
+      userStore.logout();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+</script>
+
 <template>
+  <ConfirmModal
+    message="Bạn có chắc chắn muốn đăng xuất không?"
+    color="red"
+    title="Đăng xuất"
+    :isOpenModal="openModal"
+    :toggleModal="ToggleModal"
+    :onConFirm="handleLogout"
+  ></ConfirmModal>
   <Disclosure
     as="nav"
-    class="bg-white shadow sticky top-0 z-50"
+    class="bg-white shadow sticky top-0 z-10"
     v-slot="{ open }"
   >
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +94,8 @@
           <button
             v-if="isLoggedIn"
             type="button"
-            class="bg-white p-1 px-2 rounded-xl text-gray-400 border hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            style="height: 38px"
+            class="bg-white py-1 px-2 rounded-xl text-gray-700 border border-gray-300 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <span class="sr-only">View cart</span>
             <svg
@@ -146,7 +200,7 @@
                     href="#"
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-blue-500',
+                      'block px-4 py-2 text-sm text-blue-500 font-semibold',
                     ]"
                     >{{ userData.email }}</a
                   >
@@ -158,7 +212,8 @@
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Trang cá nhân</a
+                  >
+                    Trang cá nhân</a
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
@@ -173,7 +228,7 @@
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <a
-                    @click="handleLogout"
+                    @click="ToggleModal"
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm  text-red-500',
@@ -262,71 +317,36 @@
       </div>
       <div class="pt-4 pb-3 border-t border-gray-200">
         <div class="flex items-center px-4">
-          <div class="flex-shrink-0">
-            <img
-              class="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
+          <div class="">
+            <div class="text-base font-medium text-gray-800">
+              {{ userData.fullName }}
+            </div>
+            <div class="text-sm font-medium text-gray-500">
+              {{ userData.email }}
+            </div>
           </div>
-          <div class="ml-3">
-            <div class="text-base font-medium text-gray-800">Tom Cook</div>
-            <div class="text-sm font-medium text-gray-500">tom@example.com</div>
-          </div>
-          <button
-            type="button"
-            class="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <span class="sr-only">View notifications</span>
-            <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
         </div>
         <div class="mt-3 space-y-1">
           <DisclosureButton
             as="a"
             href="#"
             class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-            >Your Profile</DisclosureButton
+            >Trang cá nhân</DisclosureButton
           >
           <DisclosureButton
             as="a"
             href="#"
             class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-            >Settings</DisclosureButton
+            >Cài đặt</DisclosureButton
           >
           <DisclosureButton
             as="a"
             href="#"
-            class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-            >Sign out</DisclosureButton
+            class="block px-4 py-2 text-base font-medium text-red-500 hover:text-gray-800 hover:bg-gray-100"
+            >Đăng xuất</DisclosureButton
           >
         </div>
       </div>
     </DisclosurePanel>
   </Disclosure>
 </template>
-
-<script setup lang="ts">
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/vue";
-
-import { ref } from "vue";
-
-import { useUserStore } from "../../stores/userStore";
-const userStore = useUserStore();
-const userData = ref(userStore.getUser());
-const isLoggedIn = ref(userStore.getStateLogin());
-console.log("isLoggedIn", isLoggedIn.value);
-async function handleLogout() {
-  // Call api log out here
-  isLoggedIn.value = false;
-  userStore.logout();
-}
-</script>

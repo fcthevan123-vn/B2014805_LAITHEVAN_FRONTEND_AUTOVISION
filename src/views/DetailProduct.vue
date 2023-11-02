@@ -1,15 +1,11 @@
 <template>
-  <div class="bg-white mt-4">
-    <div
-      class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8"
-    >
+  <div class="bg-white">
+    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 lg:max-w-7xl lg:px-8">
       <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
         <!-- Image gallery -->
         <TabGroup as="div" class="flex flex-col-reverse">
           <!-- Image selector -->
-          <div
-            class="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none"
-          >
+          <div class="mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
             <TabList class="grid grid-cols-4 gap-6">
               <Tab
                 v-for="image in product.images"
@@ -50,7 +46,7 @@
 
         <!-- Product info -->
         <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-          <p class="text-lg font-medium text-blue-500">Sedan</p>
+          <p class="text-lg font-medium text-blue-500">Nike</p>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900">
             {{ product.name }}
           </h1>
@@ -140,113 +136,6 @@
               </RadioGroup>
             </div>
 
-            <!-- <div class="mt-4">
-              <p class="text-lg font-medium text-blue-500 mb-3 mt-8">
-                Thông tin chi tiết
-              </p>
-              <ul class="text-base text-gray-700 space-y-2 pr-8">
-                <li>
-                  <p class="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-point-filled mr-1 text-gray-500"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path
-                        d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z"
-                        stroke-width="0"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    Chiều cao: từ 1467 mm
-                  </p>
-                </li>
-
-                <li>
-                  <p class="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-point-filled mr-1 text-gray-500"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path
-                        d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z"
-                        stroke-width="0"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    Chiều rộng: từ 1868 mm1
-                  </p>
-                </li>
-
-                <li>
-                  <p class="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-point-filled mr-1 text-gray-500"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path
-                        d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z"
-                        stroke-width="0"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    Chiều dài: từ 4936 mm1
-                  </p>
-                </li>
-
-                <li>
-                  <p class="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tabler icon-tabler-point-filled mr-1 text-gray-500"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path
-                        d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z"
-                        stroke-width="0"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
-                    Công suất tối đa: 523 mã lực tại 5500 vòng/phút2
-                  </p>
-                </li>
-              </ul>
-            </div> -->
-
             <div class="mt-10 flex sm:flex-col1 gap-5 w-full">
               <button
                 class="w-1/2 py-3 group flex items-center justify-between gap-4 rounded-xl border border-current px-2 text-blue-500 transition-colors hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
@@ -279,49 +168,50 @@
             Thông tin chi tiết
           </h3>
           <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Những thông số chính của xe
+            Những thông số chính của giày
           </p>
         </div>
         <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
           <dl class="sm:divide-y sm:divide-gray-200">
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">Chiều cao</dt>
+              <dt class="text-sm font-medium text-gray-500">Trọng lượng</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                từ 1467 mm
+                Xấp xỉ 350g
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">Chiều dài</dt>
+              <dt class="text-sm font-medium text-gray-500">Đế ngoài</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                từ 4936 mm1
+                Cao su với họa tiết bám đường tốt
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">Năm sản xuất</dt>
+              <dt class="text-sm font-medium text-gray-500">Công nghệ đệm</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                2023
+                Boost
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">Số chỗ</dt>
+              <dt class="text-sm font-medium text-gray-500">Chất liệu</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                5
+                Primeknit và cao su
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt class="text-sm font-medium text-gray-500">Trọng tải</dt>
+              <dt class="text-sm font-medium text-gray-500">Phù hợp cho</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                > 2 tấn
+                Nam và nữ
               </dd>
             </div>
           </dl>
         </div>
       </div>
     </div>
+    <RelateProduct></RelateProduct>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ref } from "vue";
 import {
   Disclosure,
@@ -336,19 +226,28 @@ import {
   TabPanel,
   TabPanels,
 } from "@headlessui/vue";
+import RelateProduct from "../components/relateProduct/RelateProduct.vue";
 
 const product = {
-  name: "BMW 5 2023",
-  price: "2.000.000.000 VND",
+  name: "Nike Air Max 90",
+  price: "1.500.000 VND",
   rating: 4,
   images: [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1532974297617-c0f05fe48bff?auto=format&fit=crop&q=80&w=1964&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://images.unsplash.com/photo-1600185365778-7875a359b924?auto=format&fit=crop&q=80&w=1925&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 2,
-      src: "https://images.unsplash.com/photo-1541447270888-83e8494f9c06?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      src: "https://images.unsplash.com/photo-1524532787116-e70228437bbe?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 3,
+      src: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&q=80&w=2071&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      id: 4,
+      src: "https://images.unsplash.com/photo-1590673846749-e2fb8f655df8?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ],
   colors: [
@@ -370,47 +269,11 @@ const product = {
     },
   ],
   description: `
-    <p>BMW 5 Series 2023 là biểu tượng của sự sang trọng và hiệu suất. Với nội
-        thất đẳng cấp, công nghệ tiên tiến và khả năng vận hành xuất sắc, nó đáp
-        ứng mọi kỳ vọng của người lái.</p>
+    <p>Nike Air Max 90 là một biểu tượng trong làng giày thể thao. Với thiết kế
+        phong cách và công nghệ đệm Max Air, đôi giày này mang lại sự thoải mái
+        và phong cách cho mọi hoạt động.</p>
   `,
-  details: [
-    {
-      name: "Features",
-      items: [
-        "Multiple strap configurations",
-        "Spacious interior with top zip",
-        "Leather handle and tabs",
-        "Interior dividers",
-        "Stainless strap loops",
-        "Double stitched construction",
-        "Water-resistant",
-      ],
-    },
-  ],
 };
 
-export default {
-  components: {
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-    RadioGroup,
-    RadioGroupLabel,
-    RadioGroupOption,
-    Tab,
-    TabGroup,
-    TabList,
-    TabPanel,
-    TabPanels,
-  },
-  setup() {
-    const selectedColor = ref(product.colors[0]);
-
-    return {
-      product,
-      selectedColor,
-    };
-  },
-};
+const selectedColor = ref(product.colors[0]);
 </script>
