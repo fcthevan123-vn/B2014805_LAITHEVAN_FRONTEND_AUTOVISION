@@ -7,6 +7,8 @@ import DefaultLayout from "../layouts/DefaultLayout.vue";
 import AdminLayout from "../layouts/AdminLayout.vue";
 import AdminHomePage from "../views/AdminHomePage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
+import AllProductsPageVue from "../views/AllProductsPage.vue";
+import CartPage from "../views/CartPage.vue";
 const routes = [
   {
     path: "/",
@@ -37,6 +39,16 @@ const routes = [
         path: "/product",
         name: "product",
         component: DetailProductVue,
+      },
+      {
+        path: "/all-products",
+        name: "allProducts",
+        component: AllProductsPageVue,
+      },
+      {
+        path: "/cart",
+        name: "cart",
+        component: CartPage,
       },
     ],
   },

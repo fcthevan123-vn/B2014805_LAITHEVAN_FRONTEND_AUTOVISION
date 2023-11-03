@@ -13,6 +13,8 @@
     "@tabler/icons-vue": "^2.40.0",
     "axios": "^1.6.0",
     "pinia": "^2.1.7",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.39.0",
     "vee-validate": "^4.11.8",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",

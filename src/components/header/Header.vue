@@ -15,6 +15,8 @@ import { ref } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
 import { useUserStore } from "../../stores/userStore";
 import { AuthService } from "../../services";
+import Button from "primevue/button";
+
 const userStore = useUserStore();
 const userData = ref(userStore.getUser());
 const isLoggedIn = ref(userStore.getStateLogin());
@@ -54,36 +56,49 @@ async function handleLogout() {
   ></ConfirmModal>
   <Disclosure
     as="nav"
-    class="bg-white shadow sticky top-0 z-10"
+    class="sticky top-0 z-10 bg-white shadow"
     v-slot="{ open }"
   >
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="container px-4 mx-auto sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex">
-          <div class="flex-shrink-0 flex items-center">
+          <div class="flex items-center flex-shrink-0">
             <a
-              class="text-lg lg:inline-block py-2 text-blue-500 font-bold"
+              class="py-2 text-lg font-bold text-blue-500 lg:inline-block"
               href="/"
               >AutoVision
             </a>
           </div>
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <!-- Current: "border-blue-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-            <a
-              href="#"
-              class="border-blue-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            <RouterLink
+              to="/"
+              :class="{
+                'text-blue-500 border-b-2 border-blue-500': $route.path === '/',
+                'text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700':
+                  $route.path !== '/',
+              }"
+              class="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2"
             >
               Trang chủ
-            </a>
-            <a
-              href="#"
-              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            </RouterLink>
+
+            <!-- class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 border-b-2 border-blue-500" -->
+
+            <RouterLink
+              to="/all-products"
+              :class="{
+                'text-blue-500 border-b-2 border-blue-500':
+                  $route.path === '/all-products',
+                'text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-700':
+                  $route.path !== '/all-products',
+              }"
+              class="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2"
             >
               Sản phẩm
-            </a>
+            </RouterLink>
             <a
               href="#"
-              class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+              class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700"
             >
               Giới thiệu
             </a>
@@ -91,39 +106,41 @@ async function handleLogout() {
         </div>
 
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-          <button
-            v-if="isLoggedIn"
-            type="button"
-            style="height: 38px"
-            class="bg-white py-1 px-2 rounded-xl text-gray-700 border border-gray-300 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <span class="sr-only">View cart</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-garden-cart"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+          <RouterLink v-if="isLoggedIn" to="/cart">
+            <button
+              type="button"
+              style="height: 38px"
+              class="px-2 py-1 text-gray-700 bg-white border border-gray-300 rounded-xl hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M17.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0"
-              ></path>
-              <path d="M6 8v11a1 1 0 0 0 1.806 .591l3.694 -5.091v.055"></path>
-              <path
-                d="M6 8h15l-3.5 7l-7.1 -.747a4 4 0 0 1 -3.296 -2.493l-2.853 -7.13a1 1 0 0 0 -.928 -.63h-1.323"
-              ></path>
-            </svg>
-          </button>
+              <span class="sr-only">View cart</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-garden-cart"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                  d="M17.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0"
+                ></path>
+                <path d="M6 8v11a1 1 0 0 0 1.806 .591l3.694 -5.091v.055"></path>
+                <path
+                  d="M6 8h15l-3.5 7l-7.1 -.747a4 4 0 0 1 -3.296 -2.493l-2.853 -7.13a1 1 0 0 0 -.928 -.63h-1.323"
+                ></path>
+              </svg>
+            </button>
+          </RouterLink>
+
           <div v-else class="flex gap-2">
             <RouterLink to="/login">
               <button
-                class="px-4 py-2 font-medium text-sm tracking-wide text-dark transition-colors duration-300 transform bg-white border border-gray-300 rounded-xl hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-80"
+                class="px-4 py-2 text-sm font-medium tracking-wide transition-colors duration-300 transform bg-white border border-gray-300 text-dark rounded-xl hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-80"
               >
                 Đăng nhập
               </button>
@@ -131,21 +148,21 @@ async function handleLogout() {
 
             <RouterLink to="/login">
               <button
-                class="px-4 py-2 font-medium text-sm tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"
+                class="px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80"
               >
                 Đăng ký
               </button>
             </RouterLink>
           </div>
           <!-- Profile dropdown -->
-          <Menu v-if="isLoggedIn" as="div" class="ml-3 relative">
+          <Menu v-if="isLoggedIn" as="div" class="relative ml-3">
             <div>
               <MenuButton
-                class="bg-white rounded-full flex text-sm focus:outline-none"
+                class="flex text-sm bg-white rounded-full focus:outline-none"
               >
                 <span class="sr-only">Open user menu</span>
                 <button
-                  class="flex gap-1 px-4 py-2 font-medium capitalize text-sm tracking-wide text-dark transition-colors duration-300 transform bg-white border border-gray-300 rounded-xl hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-80"
+                  class="flex gap-1 px-4 py-2 text-sm font-medium tracking-wide capitalize transition-colors duration-300 transform bg-white border border-gray-300 text-dark rounded-xl hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-80"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -185,15 +202,15 @@ async function handleLogout() {
               </MenuButton>
             </div>
             <transition
-              enter-active-class="transition ease-out duration-200"
-              enter-from-class="transform opacity-0 scale-95"
-              enter-to-class="transform opacity-100 scale-100"
-              leave-active-class="transition ease-in duration-75"
-              leave-from-class="transform opacity-100 scale-100"
-              leave-to-class="transform opacity-0 scale-95"
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="transform scale-95 opacity-0"
+              enter-to-class="transform scale-100 opacity-100"
+              leave-active-class="transition duration-75 ease-in"
+              leave-from-class="transform scale-100 opacity-100"
+              leave-to-class="transform scale-95 opacity-0"
             >
               <MenuItems
-                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <MenuItem v-slot="{ active }">
                   <a
@@ -240,13 +257,13 @@ async function handleLogout() {
             </transition>
           </Menu>
         </div>
-        <div class="-mr-2 flex items-center sm:hidden">
+        <div class="flex items-center -mr-2 sm:hidden">
           <!-- Mobile menu button -->
           <DisclosureButton
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            class="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
           >
             <span class="sr-only">Open main menu</span>
-            <!-- <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" /> -->
+            <!-- <MenuIcon v-if="!open" class="block w-6 h-6" aria-hidden="true" /> -->
             <svg
               v-if="!open"
               xmlns="http://www.w3.org/2000/svg"
@@ -293,25 +310,25 @@ async function handleLogout() {
         <DisclosureButton
           as="a"
           href="#"
-          class="bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >Dashboard</DisclosureButton
+          class="block py-2 pl-3 pr-4 text-base font-medium text-blue-700 border-l-4 border-blue-500 bg-blue-50"
+          >Trang chủ</DisclosureButton
         >
         <DisclosureButton
           as="a"
           href="#"
-          class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >Team</DisclosureButton
+          class="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
+          >Sản phẩm</DisclosureButton
         >
         <DisclosureButton
           as="a"
           href="#"
-          class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-          >Projects</DisclosureButton
+          class="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
+          >Giới thiệu</DisclosureButton
         >
         <DisclosureButton
           as="a"
           href="#"
-          class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+          class="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
           >Calendar</DisclosureButton
         >
       </div>

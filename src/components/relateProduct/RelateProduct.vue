@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 const products = [
   {
     id: 1,
@@ -83,12 +83,4 @@ const products = [
     color: "White/Gum",
   },
 ];
-
-export default {
-  setup() {
-    return {
-      products,
-    };
-  },
-};
 </script>

@@ -32,9 +32,20 @@ function handleConfirm() {
   closeModal();
   return false;
 }
-const btnClass = ref(
-  `inline-flex justify-center rounded-xl border border-transparent bg-${props.color}-100 px-4 py-2 text-sm font-medium text-${props.color}-500 hover:bg-${props.color}-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-${props.color}-500 focus-visible:ring-offset-2`
-);
+
+const colorVariants = {
+  blue: "bg-blue-100 text-blue-500 focus-visible:ring-blue-500 hover:bg-blue-200",
+  red: "bg-red-100 text-red-500 focus-visible:ring-red-500 hover:bg-red-200",
+  orange:
+    "bg-orange-100 text-orange-500 focus-visible:ring-orange-500 hover:bg-orange-200",
+};
+
+type ColorVariantKey = "blue" | "red" | "orange";
+
+let colorClass = ref("");
+if (colorVariants.hasOwnProperty(props.color as ColorVariantKey)) {
+  colorClass.value = colorVariants[props.color as ColorVariantKey];
+}
 </script>
 
 <template>
@@ -54,7 +65,7 @@ const btnClass = ref(
 
       <div class="fixed inset-0 overflow-y-auto">
         <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
+          class="flex items-center justify-center min-h-full p-4 text-center"
         >
           <TransitionChild
             as="template"
@@ -66,7 +77,7 @@ const btnClass = ref(
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
             >
               <DialogTitle
                 as="h3"
@@ -78,18 +89,25 @@ const btnClass = ref(
                 {{ props.title }}
               </DialogTitle>
               <div class="mt-2">
-                <p class="text-md text-gray-500">
+                <p class="text-gray-500 text-md">
                   {{ message }}
                 </p>
               </div>
 
-              <div class="mt-4 flex gap-3">
-                <button type="button" :class="btnClass" @click="handleConfirm">
+              <div class="flex gap-3 mt-4">
+                <button
+                  type="button"
+                  :class="[
+                    `${colorClass}`,
+                    'inline-flex justify-center rounded-xl border border-transparent  px-4 py-2 text-sm font-medium  focus:outline-none focus-visible:ring-2  focus-visible:ring-offset-2',
+                  ]"
+                  @click="handleConfirm"
+                >
                   Đồng ý
                 </button>
                 <button
                   type="button"
-                  class="inline-flex justify-center rounded-xl border bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border rounded-xl hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   @click="closeModal"
                 >
                   Huỷ

@@ -1,26 +1,26 @@
 <template>
   <div class="bg-white">
-    <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div class="max-w-2xl px-4 py-6 mx-auto sm:py-12 lg:max-w-7xl lg:px-8">
       <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
         <!-- Image gallery -->
         <TabGroup as="div" class="flex flex-col-reverse">
           <!-- Image selector -->
-          <div class="mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
+          <div class="w-full max-w-2xl mx-auto mt-6 sm:block lg:max-w-none">
             <TabList class="grid grid-cols-4 gap-6">
               <Tab
                 v-for="image in product.images"
                 :key="image.id"
-                class="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
+                class="relative flex items-center justify-center h-24 text-sm font-medium text-gray-900 uppercase bg-white rounded-md cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
                 v-slot="{ selected }"
               >
                 <!-- <span class="sr-only">
                   {{ image.name }}
                 </span> -->
-                <span class="absolute inset-0 rounded-md overflow-hidden">
+                <span class="absolute inset-0 overflow-hidden rounded-md">
                   <img
                     :src="image.src"
                     alt=""
-                    class="w-full h-full object-center object-cover"
+                    class="object-cover object-center w-full h-full"
                   />
                 </span>
                 <span
@@ -38,14 +38,14 @@
             <TabPanel v-for="image in product.images" :key="image.id">
               <img
                 :src="image.src"
-                class="w-full h-full object-center object-cover sm:rounded-lg"
+                class="object-cover object-center w-full h-full sm:rounded-lg"
               />
             </TabPanel>
           </TabPanels>
         </TabGroup>
 
         <!-- Product info -->
-        <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
+        <div class="px-4 mt-10 sm:px-0 sm:mt-16 lg:mt-0">
           <p class="text-lg font-medium text-blue-500">Nike</p>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900">
             {{ product.name }}
@@ -90,15 +90,18 @@
             <h3 class="sr-only">Description</h3>
 
             <div
-              class="text-base text-gray-700 space-y-6"
+              class="space-y-6 text-base text-gray-700"
               v-html="product.description"
             />
           </div>
 
           <form class="mt-6">
             <!-- Colors -->
+            <div class="mb-6 sm:w-1/2">
+              <SelectBox></SelectBox>
+            </div>
             <div>
-              <h3 class="text-md font-medium text-gray-600">Màu sắc</h3>
+              <h3 class="font-medium text-gray-600 text-md">Màu sắc</h3>
 
               <RadioGroup v-model="selectedColor" class="mt-2">
                 <RadioGroupLabel class="sr-only">
@@ -136,22 +139,22 @@
               </RadioGroup>
             </div>
 
-            <div class="mt-10 flex sm:flex-col1 gap-5 w-full">
+            <div class="flex w-full gap-5 mt-10 sm:flex-col1">
               <button
-                class="w-1/2 py-3 group flex items-center justify-between gap-4 rounded-xl border border-current px-2 text-blue-500 transition-colors hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
+                class="flex items-center justify-between w-1/2 gap-4 px-2 py-3 text-blue-500 transition-colors border border-current group rounded-xl hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
               >
                 <span
-                  class="font-medium text-center w-full text-sm transition-colors group-hover:text-white"
+                  class="w-full text-sm font-medium text-center transition-colors group-hover:text-white"
                 >
                   Mua ngay
                 </span>
               </button>
 
               <button
-                class="w-1/2 py-3 group flex items-center justify-between gap-4 rounded-xl border border-current px-2 text-blue-500 transition-colors hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
+                class="flex items-center justify-between w-1/2 gap-4 px-2 py-3 text-blue-500 transition-colors border border-current group rounded-xl hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
               >
                 <span
-                  class="font-medium text-center w-full text-sm transition-colors group-hover:text-white"
+                  class="w-full text-sm font-medium text-center transition-colors group-hover:text-white"
                 >
                   Thêm vào giỏ hàng
                 </span>
@@ -161,17 +164,17 @@
         </div>
       </div>
       <div
-        class="bg-white border shadow overflow-hidden sm:rounded-lg mt-16 max-w-2xl mx-auto lg:max-w-7xl"
+        class="max-w-2xl mx-auto mt-16 overflow-hidden bg-white border shadow sm:rounded-lg lg:max-w-7xl"
       >
         <div class="px-4 py-5 sm:px-6">
-          <h3 class="text-lg leading-6 font-medium text-blue-500">
+          <h3 class="text-lg font-medium leading-6 text-blue-500">
             Thông tin chi tiết
           </h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
+          <p class="max-w-2xl mt-1 text-sm text-gray-500">
             Những thông số chính của giày
           </p>
         </div>
-        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <div class="px-4 py-5 border-t border-gray-200 sm:p-0">
           <dl class="sm:divide-y sm:divide-gray-200">
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Trọng lượng</dt>
@@ -207,16 +210,15 @@
         </div>
       </div>
     </div>
-    <RelateProduct></RelateProduct>
+    <div class="mb-16">
+      <RelateProduct></RelateProduct>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
   RadioGroup,
   RadioGroupLabel,
   RadioGroupOption,
@@ -227,6 +229,7 @@ import {
   TabPanels,
 } from "@headlessui/vue";
 import RelateProduct from "../components/relateProduct/RelateProduct.vue";
+import SelectBox from "../components/selectBox/SelectBox.vue";
 
 const product = {
   name: "Nike Air Max 90",
