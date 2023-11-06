@@ -1,14 +1,20 @@
 import { createWebHistory, createRouter } from "vue-router";
-import HomePage from "../views/HomePage.vue";
-import AboutPage from "../views/AboutPage.vue";
-import LoginPage from "../views/LoginPage.vue";
-import DetailProductVue from "../views/DetailProduct.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import AdminLayout from "../layouts/AdminLayout.vue";
-import AdminHomePage from "../views/AdminHomePage.vue";
-import RegisterPage from "../views/RegisterPage.vue";
-import AllProductsPageVue from "../views/AllProductsPage.vue";
-import CartPage from "../views/CartPage.vue";
+
+import {
+  AboutPage,
+  AdminHomePage,
+  AllProductsPage,
+  CartPage,
+  DetailProduct,
+  ErrorPage,
+  HomePage,
+  LoginPage,
+  RegisterPage,
+} from "../views";
+import { AdminLoginPage, AdminManagerProduct } from "../views/Adminpages";
+import { useStaffStore } from "../stores/staffStore";
 const routes = [
   {
     path: "/",
@@ -38,12 +44,12 @@ const routes = [
       {
         path: "/product",
         name: "product",
-        component: DetailProductVue,
+        component: DetailProduct,
       },
       {
         path: "/all-products",
         name: "allProducts",
-        component: AllProductsPageVue,
+        component: AllProductsPage,
       },
       {
         path: "/cart",
@@ -61,8 +67,25 @@ const routes = [
         path: "",
         name: "adminHompage",
         component: AdminHomePage,
+        meta: { requireAdmin: true },
+      },
+      {
+        path: "/admin/manage-products",
+        name: "adminManageProducts",
+        component: AdminManagerProduct,
+        meta: { requireAdmin: true },
       },
     ],
+  },
+  {
+    path: "/admin/login",
+    name: "adminLogin",
+    component: AdminLoginPage,
+  },
+  {
+    path: "/error",
+    name: "error",
+    component: ErrorPage,
   },
 ];
 const router = createRouter({
@@ -71,6 +94,21 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 };
   },
+});
+
+router.beforeEach((to, from) => {
+  if (to.meta.requiresAuth) {
+    return { name: "login" };
+  }
+});
+
+router.beforeEach((to, from) => {
+  const staffStore = useStaffStore();
+  const staffLogin = staffStore.getStateLogin();
+
+  if (to.meta.requireAdmin && !staffLogin) {
+    return { name: "error" };
+  }
 });
 
 export default router;

@@ -15,7 +15,6 @@ import { ref } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
 import { useUserStore } from "../../stores/userStore";
 import { AuthService } from "../../services";
-import Button from "primevue/button";
 
 const userStore = useUserStore();
 const userData = ref(userStore.getUser());
@@ -180,7 +179,7 @@ async function handleLogout() {
                     <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                   </svg>
-                  {{ userData.fullName }}
+                  {{ userData.HoTenKH }}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="icon icon-tabler icon-tabler-arrow-narrow-down"
@@ -336,7 +335,7 @@ async function handleLogout() {
         <div class="flex items-center px-4">
           <div class="">
             <div class="text-base font-medium text-gray-800">
-              {{ userData.fullName }}
+              {{ userData.HoTenKH }}
             </div>
             <div class="text-sm font-medium text-gray-500">
               {{ userData.email }}

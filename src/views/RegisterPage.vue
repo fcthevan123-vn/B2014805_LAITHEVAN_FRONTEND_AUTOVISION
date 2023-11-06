@@ -7,18 +7,18 @@ import { UserService } from "../services";
 const { values, errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().email("Email không hợp lệ").required("Email trống"),
-    fullName: yup
+    HoTenKH: yup
       .string()
       .min(3, "Tên phải có ít nhất 3 ký tự")
       .required("Tên người dùng trống"),
-    phone: yup
+    SoDienThoai: yup
       .string()
       .required("Số điện thoại trống")
       .matches(
         /((09|03|07|08|05)+([0-9]{8})\b)/g,
         "Số điện thoại không hợp lệ"
       ),
-    address: yup
+    DiaChi: yup
       .string()
       .required("Thiếu địa chỉ")
       .min(5, "Địa chỉ phải có ít nhất 5 ký tự"),
@@ -26,7 +26,7 @@ const { values, errors, defineInputBinds, handleSubmit } = useForm({
       .string()
       .required("Mật khẩu trống")
       .min(8, "Mật khẩu phải có ít nhất 8 ký tự"),
-    rePassword: yup
+    repassword: yup
       .string()
       .oneOf([yup.ref("password")], "Mật khẩu không đúng")
       .required("Mật khẩu xác nhận trống"),
@@ -34,11 +34,11 @@ const { values, errors, defineInputBinds, handleSubmit } = useForm({
 });
 
 const email = defineInputBinds("email");
-const phone = defineInputBinds("phone");
+const SoDienThoai = defineInputBinds("SoDienThoai");
 const password = defineInputBinds("password");
-const address = defineInputBinds("address");
-const fullName = defineInputBinds("fullName");
-const rePassword = defineInputBinds("rePassword");
+const DiaChi = defineInputBinds("DiaChi");
+const HoTenKH = defineInputBinds("HoTenKH");
+const repassword = defineInputBinds("repassword");
 
 const onSubmit = handleSubmit(async (values) => {
   try {
@@ -89,17 +89,17 @@ const onSubmit = handleSubmit(async (values) => {
           <div class="mt-4 w-1/2">
             <label
               class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
-              for="fullName"
+              for="HoTenKH"
               >Họ và tên:
             </label>
             <input
-              v-bind="fullName"
-              id="fullName"
+              v-bind="HoTenKH"
+              id="HoTenKH"
               class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
               type="text"
             />
             <span class="text-sm text-red-500 italic">{{
-              errors.fullName
+              errors.HoTenKH
             }}</span>
           </div>
 
@@ -107,18 +107,20 @@ const onSubmit = handleSubmit(async (values) => {
             <div class="flex justify-between">
               <label
                 class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
-                for="phone"
+                for="SoDienThoai"
                 >Số điện thoại:</label
               >
             </div>
 
             <input
-              v-bind="phone"
-              id="phone"
+              v-bind="SoDienThoai"
+              id="SoDienThoai"
               class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
               type="tel"
             />
-            <span class="text-sm text-red-500 italic">{{ errors.phone }}</span>
+            <span class="text-sm text-red-500 italic">{{
+              errors.SoDienThoai
+            }}</span>
           </div>
         </div>
 
@@ -162,19 +164,19 @@ const onSubmit = handleSubmit(async (values) => {
             <div class="flex justify-between">
               <label
                 class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
-                for="rePassword"
+                for="repassword"
                 >Nhập lại mật khẩu:</label
               >
             </div>
 
             <input
-              id="rePassword"
-              v-bind="rePassword"
+              id="repassword"
+              v-bind="repassword"
               class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
               type="password"
             />
             <span class="text-sm text-red-500 italic">{{
-              errors.rePassword
+              errors.repassword
             }}</span>
           </div>
         </div>
@@ -183,18 +185,18 @@ const onSubmit = handleSubmit(async (values) => {
           <div class="flex justify-between">
             <label
               class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
-              for="address"
+              for="DiaChi"
               >Địa chỉ:</label
             >
           </div>
 
           <input
-            id="address"
-            v-bind="address"
+            id="DiaChi"
+            v-bind="DiaChi"
             class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
             type="text"
           />
-          <span class="text-sm text-red-500 italic">{{ errors.address }}</span>
+          <span class="text-sm text-red-500 italic">{{ errors.DiaChi }}</span>
         </div>
 
         <div class="mt-6">

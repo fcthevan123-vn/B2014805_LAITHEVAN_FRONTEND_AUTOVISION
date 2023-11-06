@@ -8,17 +8,18 @@ import {
 } from "@headlessui/vue";
 import {
   IconHome,
-  IconCalendarEvent,
   IconUsersGroup,
   IconMenu,
   IconX,
+  IconShoe,
   IconSearch,
 } from "@tabler/icons-vue";
-import { useUserStore } from "../stores/userStore";
+import { useStaffStore } from "../stores/staffStore";
+import { AuthService } from "../services";
 
 const navigation = [
   { name: "Trang chủ", href: "#", icon: IconHome, current: true },
-  { name: "Tất cả giày", href: "#", icon: IconCalendarEvent, current: false },
+  { name: "Tất cả giày", href: "#", icon: IconShoe, current: false },
   {
     name: "Quản lý tài khoản",
     href: "#",
@@ -30,8 +31,21 @@ const navigation = [
 
 const sidebarOpen = ref(false);
 
-const userStore = useUserStore();
-const userData = ref(userStore.getUser());
+const staffStore = useStaffStore();
+const staffData = ref(staffStore.getStaff());
+const isLoggedIn = ref(staffStore.getStateLogin());
+
+const handleLogout = async () => {
+  try {
+    const res = await AuthService.logout();
+    if (res.statusCode === 0) {
+      isLoggedIn.value = false;
+      staffStore.logout();
+    }
+  } catch (error) {
+    throw error;
+  }
+};
 </script>
 
 <template>
@@ -135,13 +149,14 @@ const userData = ref(userStore.getUser());
                     <p
                       class="text-base font-medium text-gray-700 group-hover:text-gray-900"
                     >
-                      {{ userData.fullName }}
+                      {{ staffData.HoTenNV }}
                     </p>
-                    <p
+                    <button
+                      @click="handleLogout"
                       class="text-sm font-medium text-gray-500 group-hover:text-gray-700"
                     >
                       View profile
-                    </p>
+                    </button>
                   </div>
                 </div>
               </a>
@@ -209,14 +224,15 @@ const userData = ref(userStore.getUser());
                 </div>
                 <div class="ml-3">
                   <p
-                    class="text-sm font-medium text-gray-700 group-hover:text-gray-900"
+                    class="text-md font-bold text-gray-700 group-hover:text-gray-900"
                   >
-                    {{ userData.fullName }}
+                    {{ staffData.HoTenNV }}
                   </p>
                   <p
-                    class="text-xs font-medium text-gray-500 group-hover:text-gray-700"
+                    @click="handleLogout"
+                    class="text-sm font-medium text-gray-500 group-hover:text-gray-700"
                   >
-                    View profile
+                    Đăng xuất
                   </p>
                 </div>
               </div>
@@ -255,9 +271,8 @@ const userData = ref(userStore.getUser());
         >
           <!-- Start main area-->
           <div class="absolute inset-0 py-6 px-4 sm:px-6 lg:px-8">
-            <div
-              class="h-full border-2 border-gray-200 border-dashed rounded-lg"
-            />
+            <!-- Children -->
+            <RouterView />
           </div>
           <!-- End main area -->
         </main>

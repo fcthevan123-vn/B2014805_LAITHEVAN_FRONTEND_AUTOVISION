@@ -8,11 +8,10 @@ export const useUserStore = defineStore({
   state: () => ({
     user: {
       _id: "",
-      fullName: "",
+      HoTenKH: "",
       email: "",
-      type: "",
-      phone: "",
-      address: "",
+      SoDienThoai: "",
+      DiaChi: "",
       createdAt: "",
       updatedAt: "",
     },
@@ -40,11 +39,10 @@ export const useUserStore = defineStore({
     logout() {
       this.user = {
         _id: "",
-        fullName: "",
+        HoTenKH: "",
         email: "",
-        type: "",
-        phone: "",
-        address: "",
+        SoDienThoai: "",
+        DiaChi: "",
         createdAt: "",
         updatedAt: "",
       };

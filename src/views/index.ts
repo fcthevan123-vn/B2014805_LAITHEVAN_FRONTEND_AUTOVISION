@@ -1,0 +1,9 @@
+export { default as LoginPage } from "./LoginPage.vue";
+export { default as RegisterPage } from "./RegisterPage.vue";
+export { default as HomePage } from "./HomePage.vue";
+export { default as DetailProduct } from "./DetailProduct.vue";
+export { default as CartPage } from "./CartPage.vue";
+export { default as AllProductsPage } from "./AllProductsPage.vue";
+export { default as AdminHomePage } from "./AdminHomePage.vue";
+export { default as AboutPage } from "./AboutPage.vue";
+export { default as ErrorPage } from "./ErrorPage.vue";
