@@ -1,7 +1,6 @@
 <template>
   <div class="card flex justify-content-center">
     <Toast />
-    <Button label="Show" @click="show()" />
   </div>
   <div>
     <Dialog
@@ -11,11 +10,20 @@
       header="Thêm sản phẩm mới"
       :style="{ width: '50rem' }"
     >
-      <FormAddProduct></FormAddProduct>
+      <FormAddProduct @closeModal="closeModal"></FormAddProduct>
     </Dialog>
 
     <div class="flex justify-end mb-6">
-      <Button label="Show" icon="pi pi-external-link" @click="visible = true" />
+      <Button
+        class="text-xs"
+        label="Thêm sản phẩm mới"
+        icon="pi pi-external-link"
+        @click="visible = true"
+      />
+    </div>
+
+    <div>
+      <AllProductsTable></AllProductsTable>
     </div>
   </div>
 </template>
@@ -24,17 +32,21 @@ import { ref } from "vue";
 import FormAddProduct from "../../components/forms/FormAddProduct.vue";
 import Toast from "primevue/toast";
 import { useToast } from "primevue/usetoast";
-
+import AllProductsTable from "../../components/tables/allProductsTable.vue";
 const visible = ref(false);
 
-const toastd = useToast();
+const toast = useToast();
 
 const show = () => {
-  toastd.add({
+  toast.add({
     severity: "info",
     summary: "Info",
     detail: "Message Content",
     life: 2000,
   });
+};
+
+const closeModal = () => {
+  visible.value = false;
 };
 </script>

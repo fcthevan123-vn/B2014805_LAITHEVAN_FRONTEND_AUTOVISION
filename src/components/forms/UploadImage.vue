@@ -8,6 +8,7 @@
       url="http://127.0.0.1:5173/api/v1/product/create"
       @remove="imageChangeEvent($event.files)"
       @select="imageChangeEvent($event.files)"
+      @clear="imageChangeEvent([])"
       accept="image/*"
       :showUploadButton="false"
       :multiple="true"
@@ -22,25 +23,12 @@
 
 <script setup lang="ts">
 import Toast from "primevue/toast";
-import { useToast } from "primevue/usetoast";
 import FileUpload from "primevue/fileupload";
-import { ref, defineEmits } from "vue";
+import { defineEmits } from "vue";
 
 const emit = defineEmits(["imageChange"]);
 
 const imageChangeEvent = (files: File[]) => {
   emit("imageChange", files);
-};
-
-const toast = useToast();
-
-const filesUploaded = ref([]);
-
-const onSelected = (event) => {
-  imageChangeEvent(event.files);
-};
-
-const onRemoveFile = (event) => {
-  imageChangeEvent(event.files);
 };
 </script>

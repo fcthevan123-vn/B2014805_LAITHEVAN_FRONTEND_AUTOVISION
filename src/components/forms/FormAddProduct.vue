@@ -2,7 +2,7 @@
   <form @submit="onSubmit">
     <div class="grid grid-cols-1 my-4 gap-6 sm:grid-cols-2">
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="TenHH"
+        <label class="font-medium text-gray-700 dark:text-gray-200" for="TenHH"
           >Tên sản phẩm</label
         >
         <input
@@ -16,7 +16,9 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="SoLuongHang"
+        <label
+          class="font-medium text-gray-700 dark:text-gray-200"
+          for="SoLuongHang"
           >Số lượng</label
         >
         <input
@@ -32,7 +34,7 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="Gia"
+        <label class="font-medium text-gray-700 dark:text-gray-200" for="Gia"
           >Giá (VND)</label
         >
         <input
@@ -46,7 +48,9 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="TrongLuong"
+        <label
+          class="font-medium text-gray-700 dark:text-gray-200"
+          for="TrongLuong"
           >Trọng lượng (g)</label
         >
         <input
@@ -60,7 +64,9 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="CongNgheDem"
+        <label
+          class="font-medium text-gray-700 dark:text-gray-200"
+          for="CongNgheDem"
           >Công nghệ đệm</label
         >
         <input
@@ -76,7 +82,9 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="DeNgoai"
+        <label
+          class="font-medium text-gray-700 dark:text-gray-200"
+          for="DeNgoai"
           >Đế ngoài</label
         >
         <input
@@ -90,7 +98,9 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="ChatLieu"
+        <label
+          class="font-medium text-gray-700 dark:text-gray-200"
+          for="ChatLieu"
           >Chất liệu</label
         >
         <input
@@ -103,7 +113,9 @@
         <span class="text-sm text-red-500 italic">{{ errors.ChatLieu }}</span>
       </div>
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="PhuHopVoi"
+        <label
+          class="font-medium text-gray-700 dark:text-gray-200"
+          for="PhuHopVoi"
           >Phù hợp với</label
         >
         <input
@@ -117,7 +129,7 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="MoTaHH"
+        <label class="font-medium text-gray-700 dark:text-gray-200" for="MoTaHH"
           >Mô tả</label
         >
         <textarea
@@ -131,7 +143,7 @@
       </div>
 
       <div>
-        <label class="text-gray-700 dark:text-gray-200" for="GhiChu"
+        <label class="font-medium text-gray-700 dark:text-gray-200" for="GhiChu"
           >Ghi chú</label
         >
         <textarea
@@ -143,48 +155,91 @@
         />
         <span class="text-sm text-red-500 italic">{{ errors.GhiChu }}</span>
       </div>
+
+      <div class="relative flex items-start mb-4">
+        <div class="flex flex-col justify-start items-start h-5">
+          <div class="flex gap-2 font-medium">
+            <Field name="NoiBat" type="checkbox" value="true" />
+            <p>Đánh dấu là nổi bật</p>
+          </div>
+
+          <div class="ml-5 text-sm">
+            <p id="NoiBat" class="text-gray-500">
+              Sản phẩm sẽ được hiển thị ở trang chủ
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="clearfix mt-6">
-      <label class="text-gray-700 dark:text-gray-200" for="GhiChu"
+      <label class="font-medium text-gray-700 dark:text-gray-200" for="GhiChu"
         >Hình ảnh</label
       >
       <UploadImage @imageChange="handleSetImage"></UploadImage>
       <span class="text-sm text-red-500 italic">{{ errors.HinhUpload }}</span>
     </div>
 
+    <ProgressBar
+      v-if="isLoading"
+      class="my-4"
+      mode="indeterminate"
+      style="height: 6px"
+    ></ProgressBar>
+
     <div class="flex justify-end mt-6">
-      <Button type="submit"> Thêm </Button>
+      <Button type="submit" :loading="isLoading"> Thêm </Button>
     </div>
   </form>
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, watch, watchEffect } from "vue";
-import { useForm } from "vee-validate";
+import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
-import axios from "axios";
+import { HangHoaTS } from "../../utils/allTypeTs";
 import UploadImage from "./UploadImage.vue";
+import { ProductService } from "../../services";
+import { useToast } from "primevue/usetoast";
+import ProgressBar from "primevue/ProgressBar";
 
-const { values, errors, defineInputBinds, handleSubmit, setFieldValue } =
-  useForm({
-    validationSchema: yup.object({
-      TenHH: yup.string().required("Tên hàng hóa trống"),
-      MoTaHH: yup.string().required("Mô tả hàng hóa trống"),
-      Gia: yup.number().required("Giá trống"),
-      SoLuongHang: yup.number().required("Số lượng hàng trống"),
-      TrongLuong: yup.number().required("Trọng lượng trống"),
-      ChatLieu: yup.string().required("Chất liệu trống"),
-      PhuHopVoi: yup.string().required("Phù hợp với trống"),
-      CongNgheDem: yup.string().required("Công nghệ đệm trống"),
-      DeNgoai: yup.string().required("Đế ngoài trống"),
-      GhiChu: yup.string().required("Ghi chú trống"),
-      HinhHH: yup.array().min(4, "Ít nhất 4 hình phải được cung cấp"),
-      HinhUpload: yup
-        .array()
-        .min(3, "Ít nhất phải có 3 hình")
-        .max(5, "Tối đa 5 hình"),
-    }),
-  });
+const props = defineProps({
+  isUpdate: { type: Boolean },
+  data: { type: Object },
+});
+
+const toast = useToast();
+
+const isLoading = ref(false);
+if (props.data) {
+  onMounted(() => setValues(props.data as HangHoaTS));
+}
+
+const {
+  values,
+  setValues,
+  errors,
+  defineInputBinds,
+  handleSubmit,
+  setFieldValue,
+} = useForm<HangHoaTS>({
+  validationSchema: yup.object({
+    TenHH: yup.string().required("Tên hàng hóa trống"),
+    MoTaHH: yup.string().required("Mô tả hàng hóa trống"),
+    Gia: yup.number().required("Giá trống"),
+    SoLuongHang: yup.number().required("Số lượng hàng trống"),
+    TrongLuong: yup.number().required("Trọng lượng trống"),
+    ChatLieu: yup.string().required("Chất liệu trống"),
+    PhuHopVoi: yup.string().required("Phù hợp với trống"),
+    CongNgheDem: yup.string().required("Công nghệ đệm trống"),
+    DeNgoai: yup.string().required("Đế ngoài trống"),
+    GhiChu: yup.string().required("Ghi chú trống"),
+    HinhHH: yup.array().min(4, "Ít nhất 4 hình phải được cung cấp"),
+    HinhUpload: yup
+      .array()
+      .min(3, "Ít nhất phải có 3 hình")
+      .max(5, "Tối đa 5 hình"),
+  }),
+});
 
 const TenHH = defineInputBinds("TenHH");
 const MoTaHH = defineInputBinds("MoTaHH");
@@ -196,45 +251,37 @@ const PhuHopVoi = defineInputBinds("PhuHopVoi");
 const CongNgheDem = defineInputBinds("CongNgheDem");
 const DeNgoai = defineInputBinds("DeNgoai");
 const GhiChu = defineInputBinds("GhiChu");
-// const HinhHH = defineInputBinds("HinhHH");
 const HinhUpload = defineInputBinds("HinhUpload");
+const NoiBat = defineInputBinds("NoiBat");
 
-const handleSetImage = (files: File) => {
+const handleSetImage = (files: File[]) => {
   setFieldValue("HinhUpload", files);
 };
 
-watch(values, () => {
-  console.log("value: ", values);
-});
+const handleSetData = (values: HangHoaTS) => {
+  setValues(values);
+};
+
+const emit = defineEmits(["closeModal"]);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    console.log("value: ", values);
+    isLoading.value = true;
+    const res = await ProductService.createProduct(values);
+    if (res.statusCode === 0) {
+      toast.add({
+        severity: "success",
+        summary: "Tạo sản phẩm thành công",
+        detail: "Bạn đã tạo sản phẩm thành công",
+        life: 2000,
+      });
+      emit("closeModal");
+      isLoading.value = false;
+    }
   } catch (error) {
     const err = error as Error;
-    alert(err.message);
+
     console.log("error", err.message);
   }
 });
-
-const fileImage = ref([]);
-
-// const uploadImage = async (file) => {
-//   const fmData = new FormData();
-
-//   fmData.append("file", file);
-
-//   try {
-//     const res = await axios.post(
-//       "https://api.cloudinary.com/v1_1/dvvg4xwoy/image/upload?upload_preset=swgjac1j",
-//       fmData,
-//       { headers: { "content-type": "multipart/form-data" } }
-//     );
-
-//     const imageUrl = res.data.secure_url;
-//     console.log("imageUrl", imageUrl);
-//   } catch (err) {
-//     console.log("Eroor: ", err);
-//   }
-// };
 </script>

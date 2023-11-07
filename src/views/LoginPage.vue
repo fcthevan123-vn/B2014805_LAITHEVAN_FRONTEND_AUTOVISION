@@ -29,7 +29,6 @@ async function handleGetProfile() {
       const userData = res.data;
       userStore.setUser(userData);
       userStore.setIsLogin(true);
-      router.push("/");
     }
   } catch (error) {
     const err = error as Error;
@@ -41,9 +40,9 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     const res = await AuthService.login(values.email, values.password);
     if (res.statusCode === 0) {
-      // console.log("res.data", res.data);
-      // alert(res.message);
-      handleGetProfile();
+      window.location.replace("/");
+
+      // handleGetProfile();
     }
   } catch (error) {
     const err = error as Error;

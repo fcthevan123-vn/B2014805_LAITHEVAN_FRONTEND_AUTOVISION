@@ -26,7 +26,7 @@ export type HangHoaTS = {
   _id: string;
   TenHH: string;
   MoTaHH: string;
-  Gia: number;
+  Gia: number | string;
   SoLuongHang: number;
   TrongLuong: number;
   ChatLieu: string;
@@ -36,6 +36,7 @@ export type HangHoaTS = {
   GhiChu: string;
   HinhHH?: [HinhHH];
   HinhUpload?: File[];
+  NoiBat?: String;
 };
 
 export type HinhHH = {
