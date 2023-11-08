@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { useStaffStore } from "../../stores/staffStore";
-
 import { AuthService } from "../../services";
 import router from "../../router";
+import { useStaffStore } from "../../stores/staffStore";
 const { values, errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().email("Email không hợp lệ").required("Email trống"),
@@ -23,29 +20,13 @@ const email = defineInputBinds("email");
 
 const password = defineInputBinds("password");
 
-async function handleGetProfile() {
-  try {
-    const res = await AuthService.getProfileAdmin();
-    if (res.statusCode === 0) {
-      const staffData = res.data;
-      staffStore.setStaff(staffData);
-      staffStore.setIsLogin(true);
-      router.push("/admin");
-    }
-  } catch (error) {
-    const err = error as Error;
-    throw err;
-  }
-}
-
 const onSubmit = handleSubmit(async (values) => {
   try {
-    console.log("values", values);
     const res = await AuthService.loginAdmin(values.email, values.password);
     if (res.statusCode === 0) {
-      // console.log("res.data", res.data);
-      // alert(res.message);
-      handleGetProfile();
+      staffStore.setIsLogin(true);
+      router.push("/admin");
+      // window.location.replace("/admin");
     }
   } catch (error) {
     const err = error as Error;

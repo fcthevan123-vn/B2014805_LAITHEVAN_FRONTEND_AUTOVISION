@@ -1,5 +1,23 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { ProductService } from "../../services";
 import ShoeHomeCard from "../cards/ShoeHomeCard.vue";
+
+const products = ref();
+
+onMounted(async () => await handleGetAllProducts());
+
+async function handleGetAllProducts() {
+  try {
+    const res = await ProductService.getAllProducts();
+    if (res.statusCode === 0) {
+      products.value = res.data.splice(0, 4);
+    }
+  } catch (error) {
+    const err = error as Error;
+    console.log("error", err.message);
+  }
+}
 </script>
 
 <template>
@@ -29,17 +47,8 @@ import ShoeHomeCard from "../cards/ShoeHomeCard.vue";
         </a>
       </div>
       <div class="flex flex-wrap -m-4">
-        <div class="xl:w-1/4 md:w-1/2 p-4">
-          <ShoeHomeCard />
-        </div>
-        <div class="xl:w-1/4 md:w-1/2 p-4">
-          <ShoeHomeCard />
-        </div>
-        <div class="xl:w-1/4 md:w-1/2 p-4">
-          <ShoeHomeCard />
-        </div>
-        <div class="xl:w-1/4 md:w-1/2 p-4">
-          <ShoeHomeCard />
+        <div v-for="product in products" class="xl:w-1/4 md:w-1/2 p-4">
+          <ShoeHomeCard :data="product" />
         </div>
       </div>
     </div>

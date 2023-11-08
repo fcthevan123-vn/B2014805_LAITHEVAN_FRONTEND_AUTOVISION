@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { AuthService } from "../services";
-import { useUserStore } from "../stores/userStore";
-import router from "../router";
 const { values, errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().email("Email không hợp lệ").required("Email trống"),
@@ -16,33 +12,15 @@ const { values, errors, defineInputBinds, handleSubmit } = useForm({
   }),
 });
 
-const userStore = useUserStore();
-
 const email = defineInputBinds("email");
 
 const password = defineInputBinds("password");
-
-async function handleGetProfile() {
-  try {
-    const res = await AuthService.getProfile();
-    if (res.statusCode === 0) {
-      const userData = res.data;
-      userStore.setUser(userData);
-      userStore.setIsLogin(true);
-    }
-  } catch (error) {
-    const err = error as Error;
-    throw err;
-  }
-}
 
 const onSubmit = handleSubmit(async (values) => {
   try {
     const res = await AuthService.login(values.email, values.password);
     if (res.statusCode === 0) {
       window.location.replace("/");
-
-      // handleGetProfile();
     }
   } catch (error) {
     const err = error as Error;
@@ -97,7 +75,7 @@ const onSubmit = handleSubmit(async (values) => {
           <input
             v-bind="email"
             id="LoggingEmailDiaChi"
-            class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+            class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
             type="email"
           />
           <span class="text-sm text-red-500 italic">{{ errors.email }}</span>
@@ -115,7 +93,7 @@ const onSubmit = handleSubmit(async (values) => {
           <input
             v-bind="password"
             id="loggingpassword"
-            class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+            class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
             type="password"
           />
           <span class="text-sm text-red-500 italic">{{ errors.password }}</span>

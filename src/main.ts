@@ -10,7 +10,7 @@ import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
-
+import ConfirmationService from "primevue/confirmationservice";
 import DialogService from "primevue/dialogservice";
 
 const app = createApp(App);
@@ -25,5 +25,6 @@ app.use(PrimeVue);
 
 app.component("Dialog", Dialog);
 app.component("Button", Button);
+app.use(ConfirmationService);
 
 app.mount("#app");

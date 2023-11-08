@@ -42,7 +42,7 @@ const routes = [
         component: RegisterPage,
       },
       {
-        path: "/product",
+        path: "/product/:id",
         name: "product",
         component: DetailProduct,
       },
@@ -102,7 +102,7 @@ router.beforeEach((to, from) => {
   }
 });
 
-router.beforeEach((to, from) => {
+router.afterEach((to, from) => {
   const staffStore = useStaffStore();
   const staffLogin = staffStore.getStateLogin();
 

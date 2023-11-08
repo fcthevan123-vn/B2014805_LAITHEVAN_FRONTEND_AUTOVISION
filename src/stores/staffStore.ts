@@ -21,21 +21,12 @@ export const useStaffStore = defineStore({
   actions: {
     setStaff(newStaff: StaffTS) {
       this.staff = newStaff;
-      localStorage.setItem("staff", JSON.stringify(this.staff));
     },
     getStaff() {
-      const dataUser = localStorage.getItem("staff");
-      if (dataUser) {
-        return JSON.parse(localStorage.getItem("staff") || "");
-      }
-      return [];
+      return this.staff;
     },
     getStateLogin() {
-      const login = localStorage.getItem("isLoginAdmin");
-      if (login) {
-        return JSON.parse(localStorage.getItem("isLoginAdmin") || "");
-      }
-      return false;
+      return this.isLogin;
     },
     logout() {
       this.staff = {
@@ -48,13 +39,10 @@ export const useStaffStore = defineStore({
         createdAt: "",
         updatedAt: "",
       };
-      localStorage.removeItem("isLoginAdmin");
-      localStorage.removeItem("staff");
       router.push("/admin/login");
     },
     setIsLogin(state: boolean) {
       this.isLogin = state;
-      localStorage.setItem("isLoginAdmin", JSON.stringify(state));
     },
   },
 });

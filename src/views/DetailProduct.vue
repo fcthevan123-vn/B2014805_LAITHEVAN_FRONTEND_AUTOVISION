@@ -8,17 +8,14 @@
           <div class="w-full max-w-2xl mx-auto mt-6 sm:block lg:max-w-none">
             <TabList class="grid grid-cols-4 gap-6">
               <Tab
-                v-for="image in product.images"
-                :key="image.id"
+                v-for="image in product?.HinhHH"
+                :key="image._id"
                 class="relative flex items-center justify-center h-24 text-sm font-medium text-gray-900 uppercase bg-white rounded-md cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
                 v-slot="{ selected }"
               >
-                <!-- <span class="sr-only">
-                  {{ image.name }}
-                </span> -->
                 <span class="absolute inset-0 overflow-hidden rounded-md">
                   <img
-                    :src="image.src"
+                    :src="image.UrlHinh"
                     alt=""
                     class="object-cover object-center w-full h-full"
                   />
@@ -35,9 +32,9 @@
           </div>
 
           <TabPanels class="w-full aspect-w-1 aspect-h-1">
-            <TabPanel v-for="image in product.images" :key="image.id">
+            <TabPanel v-for="image in product?.HinhHH" :key="image._id">
               <img
-                :src="image.src"
+                :src="image.UrlHinh"
                 class="object-cover object-center w-full h-full sm:rounded-lg"
               />
             </TabPanel>
@@ -48,12 +45,12 @@
         <div class="px-4 mt-10 sm:px-0 sm:mt-16 lg:mt-0">
           <p class="text-lg font-medium text-blue-500">Nike</p>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-            {{ product.name }}
+            {{ product?.TenHH }}
           </h1>
 
           <div class="mt-3">
             <h2 class="sr-only">Product information</h2>
-            <p class="text-2xl text-gray-900">{{ product.price }}</p>
+            <p class="text-2xl text-gray-900">{{ product?.Gia }}</p>
           </div>
 
           <!-- Reviews -->
@@ -65,7 +62,7 @@
                   v-for="rating in [0, 1, 2, 3, 4]"
                   :key="rating"
                   :class="[
-                    product.rating > rating
+                    mockData.rating > rating
                       ? 'text-orange-400'
                       : 'text-gray-300',
                     'h-5 w-5 flex-shrink-0',
@@ -88,18 +85,103 @@
 
           <div class="mt-6">
             <h3 class="sr-only">Description</h3>
-
-            <div
-              class="space-y-6 text-base text-gray-700"
-              v-html="product.description"
-            />
+            <h3 class="font-medium text-gray-600 text-md">Mô tả:</h3>
+            <div class="space-y-6 text-sm text-gray-700">
+              {{ product?.MoTaHH }}
+            </div>
+            <h3 class="font-medium mt-5 text-gray-600 text-md">Ghi chú:</h3>
+            <div class="space-y-6 text-sm text-gray-700">
+              {{ product?.GhiChu }}
+            </div>
           </div>
 
           <form class="mt-6">
             <!-- Colors -->
             <div class="mb-6 sm:w-1/2">
-              <SelectBox></SelectBox>
+              <Listbox as="div" v-model="selected">
+                <ListboxLabel class="block text-md font-medium text-gray-700">
+                  Size
+                </ListboxLabel>
+                <div class="mt-1 relative">
+                  <ListboxButton
+                    class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  >
+                    <span class="block truncate">{{ selected.name }}</span>
+                    <span
+                      class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"
+                    >
+                      <SelectorIcon
+                        class="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </ListboxButton>
+
+                  <transition
+                    leave-active-class="transition ease-in duration-100"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                  >
+                    <ListboxOptions
+                      class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                    >
+                      <ListboxOption
+                        as="template"
+                        v-for="size in sizes"
+                        :key="size.id"
+                        :value="size"
+                        v-slot="{ active, selected }"
+                      >
+                        <li
+                          :class="[
+                            active ? 'text-white bg-blue-600' : 'text-gray-900',
+                            'cursor-default select-none relative py-2 pl-3 pr-9',
+                          ]"
+                        >
+                          <span
+                            :class="[
+                              selected ? 'font-semibold' : 'font-normal',
+                              'block truncate',
+                            ]"
+                          >
+                            {{ size.name }}
+                          </span>
+
+                          <span
+                            v-if="selected"
+                            :class="[
+                              active ? 'text-white' : 'text-blue-600',
+                              'absolute inset-y-0 right-0 flex items-center pr-4',
+                            ]"
+                          >
+                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        </li>
+                      </ListboxOption>
+                    </ListboxOptions>
+                  </transition>
+                </div>
+              </Listbox>
+              <!-- <h3 class="font-medium text-gray-600 text-md mb-1">Size:</h3> -->
             </div>
+            <div class="mb-6 sm:w-1/2">
+              <div class="">
+                <h3 class="font-medium text-gray-600 text-md mb-1">
+                  Số lượng:
+                </h3>
+                <input
+                  type="number"
+                  v-model="quantity"
+                  min="1"
+                  max="10"
+                  oninput="validity.valid||(value='');"
+                  id="SoLuong"
+                  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                  placeholder="Tối thiểu 1 và tối đa 10"
+                />
+              </div>
+            </div>
+
             <div>
               <h3 class="font-medium text-gray-600 text-md">Màu sắc</h3>
 
@@ -110,7 +192,7 @@
                 <div class="flex items-center space-x-3">
                   <RadioGroupOption
                     as="template"
-                    v-for="color in product.colors"
+                    v-for="color in mockData.colors"
                     :key="color.name"
                     :value="color"
                     v-slot="{ active, checked }"
@@ -151,6 +233,7 @@
               </button>
 
               <button
+                @click="handleAddToCart()"
                 class="flex items-center justify-between w-1/2 gap-4 px-2 py-3 text-blue-500 transition-colors border border-current group rounded-xl hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
               >
                 <span
@@ -179,31 +262,31 @@
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Trọng lượng</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                Xấp xỉ 350g
+                Xấp xỉ {{ product?.TrongLuong }}g
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Đế ngoài</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                Cao su với họa tiết bám đường tốt
+                {{ product?.DeNgoai }}
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Công nghệ đệm</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                Boost
+                {{ product?.CongNgheDem }}
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Chất liệu</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                Primeknit và cao su
+                {{ product?.ChatLieu }}
               </dd>
             </div>
             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt class="text-sm font-medium text-gray-500">Phù hợp cho</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                Nam và nữ
+                {{ product?.PhuHopVoi }}
               </dd>
             </div>
           </dl>
@@ -217,7 +300,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxLabel,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/vue";
 import {
   RadioGroup,
   RadioGroupLabel,
@@ -229,54 +319,81 @@ import {
   TabPanels,
 } from "@headlessui/vue";
 import RelateProduct from "../components/relateProduct/RelateProduct.vue";
-import SelectBox from "../components/selectBox/SelectBox.vue";
 
-const product = {
-  name: "Nike Air Max 90",
-  price: "1.500.000 VND",
+import { useRoute } from "vue-router";
+import { ProductService } from "../services";
+import { HangHoaTS } from "../utils/allTypeTs";
+import { useUserStore } from "../stores/userStore";
+import router from "../router";
+
+const mockData = {
   rating: 4,
-  images: [
-    {
-      id: 1,
-      src: "https://images.unsplash.com/photo-1600185365778-7875a359b924?auto=format&fit=crop&q=80&w=1925&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 2,
-      src: "https://images.unsplash.com/photo-1524532787116-e70228437bbe?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 3,
-      src: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&q=80&w=2071&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 4,
-      src: "https://images.unsplash.com/photo-1590673846749-e2fb8f655df8?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ],
   colors: [
     {
-      name: "Washed Black",
+      name: "Đen",
       bgColor: "bg-gray-700",
       selectedColor: "ring-gray-700",
     },
-    { name: "White", bgColor: "bg-white", selectedColor: "ring-gray-400" },
+    { name: "Trắng", bgColor: "bg-white", selectedColor: "ring-gray-400" },
     {
-      name: "Washed Gray",
+      name: "Xám",
       bgColor: "bg-gray-500",
       selectedColor: "ring-gray-500",
     },
     {
-      name: "Blue",
+      name: "Xanh",
       bgColor: "bg-blue-500",
       selectedColor: "ring-blue-500",
     },
   ],
-  description: `
-    <p>Nike Air Max 90 là một biểu tượng trong làng giày thể thao. Với thiết kế
-        phong cách và công nghệ đệm Max Air, đôi giày này mang lại sự thoải mái
-        và phong cách cho mọi hoạt động.</p>
-  `,
 };
 
-const selectedColor = ref(product.colors[0]);
+const sizes = [
+  { id: 1, name: "36" },
+  { id: 2, name: "37" },
+  { id: 3, name: "38" },
+  { id: 4, name: "39" },
+  { id: 5, name: "40" },
+  { id: 6, name: "41" },
+  { id: 7, name: "42" },
+  { id: 8, name: "43" },
+  { id: 9, name: "44" },
+];
+
+const selected = ref(sizes[1]);
+const quantity = ref(1);
+const product = ref<HangHoaTS>();
+const selectedColor = ref(mockData.colors[0]);
+const route = useRoute();
+const id = ref(route.params.id);
+const userStore = useUserStore();
+
+async function handleAddToCart() {
+  if (!userStore.getStateLogin()) {
+    router.push("/login");
+  } else {
+    alert("add to cart");
+  }
+}
+
+onMounted(async () => {
+  handleGetProduct(id.value as string);
+});
+
+async function handleGetProduct(id: string) {
+  try {
+    const res = await ProductService.getProducById(id);
+    if (res.statusCode === 0) {
+      product.value = res.data;
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+}
 </script>
+
+<style scoped>
+.p-inputtext {
+  padding: 0px !important;
+}
+</style>

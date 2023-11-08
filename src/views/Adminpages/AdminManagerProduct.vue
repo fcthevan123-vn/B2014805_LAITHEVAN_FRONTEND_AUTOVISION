@@ -10,7 +10,10 @@
       header="Thêm sản phẩm mới"
       :style="{ width: '50rem' }"
     >
-      <FormAddProduct @closeModal="closeModal"></FormAddProduct>
+      <FormAddProduct
+        @closeModal="closeModal"
+        :isUpdate="false"
+      ></FormAddProduct>
     </Dialog>
 
     <div class="flex justify-end mb-6">
@@ -50,3 +53,10 @@ const closeModal = () => {
   visible.value = false;
 };
 </script>
+
+<style scoped>
+.p-button {
+  padding: 0.45rem 1rem !important;
+  border-radius: 10px;
+}
+</style>

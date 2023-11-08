@@ -8,8 +8,3 @@
   @tailwind components;
   @tailwind utilities;
 }
-
-.p-button {
-  padding: 0.45rem 1rem !important;
-  border-radius: 10px;
-}

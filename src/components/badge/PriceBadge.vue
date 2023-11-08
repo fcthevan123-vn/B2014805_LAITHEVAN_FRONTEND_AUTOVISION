@@ -1,6 +1,15 @@
 <script setup lang="ts">
-defineProps({
-  price: { type: String, required: true },
+import { computed } from "vue";
+
+const props = defineProps({
+  price: { type: Number, required: true },
+});
+
+const priceConvert = computed(() => {
+  return props.price.toLocaleString("vi", {
+    style: "currency",
+    currency: "VND",
+  });
 });
 </script>
 
@@ -28,6 +37,6 @@ defineProps({
       <path d="M12 7v10"></path>
     </svg>
 
-    <p class="whitespace-nowrap text-sm ml-2">{{ price }} VND</p>
+    <p class="whitespace-nowrap text-sm ml-2">{{ priceConvert }}</p>
   </span>
 </template>

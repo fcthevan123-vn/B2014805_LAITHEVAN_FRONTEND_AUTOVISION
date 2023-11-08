@@ -11,7 +11,6 @@ const userStore = useUserStore();
 const isLoading = ref(false);
 onMounted(async () => {
   await handleGetProfile();
-  console.log("userStore.get", userStore.getUser());
 });
 
 async function handleGetProfile() {

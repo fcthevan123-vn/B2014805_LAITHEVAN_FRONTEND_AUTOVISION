@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -16,6 +16,8 @@ import {
 } from "@tabler/icons-vue";
 import { useStaffStore } from "../stores/staffStore";
 import { AuthService } from "../services";
+import router from "../router";
+import { LoadingPage } from "../views";
 
 const navigation = [
   { name: "Trang chủ", href: "#", icon: IconHome, current: true },
@@ -32,14 +34,39 @@ const navigation = [
 const sidebarOpen = ref(false);
 
 const staffStore = useStaffStore();
+
+const isLoading = ref(false);
+
 const staffData = ref(staffStore.getStaff());
-const isLoggedIn = ref(staffStore.getStateLogin());
+
+onMounted(async () => {
+  await handleGetProfile();
+});
+
+async function handleGetProfile() {
+  try {
+    isLoading.value = true;
+    const res = await AuthService.getProfileAdmin();
+    if (res.statusCode === 0) {
+      const staffDataRes = res.data;
+      staffData.value = staffDataRes;
+      staffStore.setStaff(staffDataRes);
+    } else {
+      router.push("/admin/login");
+    }
+    isLoading.value = false;
+  } catch (error) {
+    router.push("/admin/login");
+    isLoading.value = false;
+    const err = error as Error;
+    throw err;
+  }
+}
 
 const handleLogout = async () => {
   try {
     const res = await AuthService.logout();
     if (res.statusCode === 0) {
-      isLoggedIn.value = false;
       staffStore.logout();
     }
   } catch (error) {
@@ -49,7 +76,10 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <div class="h-screen flex">
+  <div v-if="isLoading">
+    <LoadingPage></LoadingPage>
+  </div>
+  <div v-else class="h-screen flex">
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog
         as="div"

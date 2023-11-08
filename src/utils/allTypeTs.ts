@@ -23,10 +23,10 @@ export type StaffTS = {
 };
 
 export type HangHoaTS = {
-  _id: string;
+  _id?: string;
   TenHH: string;
   MoTaHH: string;
-  Gia: number | string;
+  Gia: number;
   SoLuongHang: number;
   TrongLuong: number;
   ChatLieu: string;
@@ -34,14 +34,14 @@ export type HangHoaTS = {
   CongNgheDem: string;
   DeNgoai: string;
   GhiChu: string;
-  HinhHH?: [HinhHH];
+  HinhHH?: HinhHH[];
+  HinhXoa?: string[];
   HinhUpload?: File[];
-  NoiBat?: String;
+  NoiBat?: string;
 };
 
 export type HinhHH = {
   _id: string;
   TenHinh: string;
-  URLHinh: string;
-  MSHH?: string;
+  UrlHinh: string;
 };

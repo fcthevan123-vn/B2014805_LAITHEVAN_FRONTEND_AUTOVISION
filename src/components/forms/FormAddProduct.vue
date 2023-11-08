@@ -176,7 +176,12 @@
       <label class="font-medium text-gray-700 dark:text-gray-200" for="GhiChu"
         >Hình ảnh</label
       >
-      <UploadImage @imageChange="handleSetImage"></UploadImage>
+      <UploadImage
+        @imageChange="handleSetImage"
+        @handleSetHinhHH="handleSetHinhHH"
+        @handleSetHinhXoa="handleSetHinhXoa"
+        :HinhHH="imageToChange"
+      ></UploadImage>
       <span class="text-sm text-red-500 italic">{{ errors.HinhUpload }}</span>
     </div>
 
@@ -188,31 +193,46 @@
     ></ProgressBar>
 
     <div class="flex justify-end mt-6">
-      <Button type="submit" :loading="isLoading"> Thêm </Button>
+      <Button
+        v-if="isUpdateForm"
+        type="submit"
+        :loading="isLoading"
+        class="py-1 px-3 rounded-xl"
+        >Sửa</Button
+      >
+      <Button
+        class="py-1 px-3 rounded-xl"
+        v-else
+        type="submit"
+        :loading="isLoading"
+        >Thêm</Button
+      >
     </div>
   </form>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
-import { HangHoaTS } from "../../utils/allTypeTs";
+import { HangHoaTS, HinhHH } from "../../utils/allTypeTs";
 import UploadImage from "./UploadImage.vue";
 import { ProductService } from "../../services";
 import { useToast } from "primevue/usetoast";
-import ProgressBar from "primevue/ProgressBar";
+import ProgressBar from "primevue/progressBar";
 
 const props = defineProps({
   isUpdate: { type: Boolean },
   data: { type: Object },
 });
 
+const emit = defineEmits(["closeModal", "handleGetAllProducts"]);
+
 const toast = useToast();
+const imageToChange = ref();
+const errorUploadImage = ref();
+const isUpdateForm = ref(props.isUpdate);
 
 const isLoading = ref(false);
-if (props.data) {
-  onMounted(() => setValues(props.data as HangHoaTS));
-}
 
 const {
   values,
@@ -233,11 +253,6 @@ const {
     CongNgheDem: yup.string().required("Công nghệ đệm trống"),
     DeNgoai: yup.string().required("Đế ngoài trống"),
     GhiChu: yup.string().required("Ghi chú trống"),
-    HinhHH: yup.array().min(4, "Ít nhất 4 hình phải được cung cấp"),
-    HinhUpload: yup
-      .array()
-      .min(3, "Ít nhất phải có 3 hình")
-      .max(5, "Tối đa 5 hình"),
   }),
 });
 
@@ -252,29 +267,58 @@ const CongNgheDem = defineInputBinds("CongNgheDem");
 const DeNgoai = defineInputBinds("DeNgoai");
 const GhiChu = defineInputBinds("GhiChu");
 const HinhUpload = defineInputBinds("HinhUpload");
+const HinhHH = defineInputBinds("HinhHH");
+const HinhXoa = defineInputBinds("HinhXoa");
 const NoiBat = defineInputBinds("NoiBat");
+
+if (props.data && props.isUpdate) {
+  setValues(props.data);
+  imageToChange.value = props?.data?.HinhHH;
+}
 
 const handleSetImage = (files: File[]) => {
   setFieldValue("HinhUpload", files);
 };
 
-const handleSetData = (values: HangHoaTS) => {
-  setValues(values);
+const handleSetHinhHH = (images: HinhHH[] | undefined) => {
+  setFieldValue("HinhHH", images);
 };
 
-const emit = defineEmits(["closeModal"]);
+const handleSetHinhXoa = (imageName: string[]) => {
+  setFieldValue("HinhXoa", imageName);
+};
 
 const onSubmit = handleSubmit(async (values) => {
   try {
+    console.log("values", values);
     isLoading.value = true;
-    const res = await ProductService.createProduct(values);
+    let res;
+
+    if (isUpdateForm.value) {
+      res = await ProductService.updateProduct(values, props?.data?._id);
+    } else {
+      res = await ProductService.createProduct(values);
+    }
     if (res.statusCode === 0) {
-      toast.add({
-        severity: "success",
-        summary: "Tạo sản phẩm thành công",
-        detail: "Bạn đã tạo sản phẩm thành công",
-        life: 2000,
-      });
+      if (isUpdateForm.value) {
+        toast.add({
+          severity: "success",
+          summary: "Cập nhật sản phẩm",
+          detail: "Bạn đã cập nhật sản phẩm thành công",
+          life: 2000,
+        });
+      } else {
+        toast.add({
+          severity: "success",
+          summary: "Tạo sản phẩm",
+          detail: "Bạn đã tạo sản phẩm thành công",
+          life: 2000,
+        });
+      }
+
+      location.reload();
+      // emit("handleGetAllProducts");
+
       emit("closeModal");
       isLoading.value = false;
     }
@@ -285,3 +329,13 @@ const onSubmit = handleSubmit(async (values) => {
   }
 });
 </script>
+
+<style scoped>
+.p-fileupload-custom {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+</style>
