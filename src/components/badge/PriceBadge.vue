@@ -15,7 +15,7 @@ const priceConvert = computed(() => {
 
 <template>
   <span
-    class="w-fit inline-flex items-center justify-center rounded-full bg-blue-100 px-2.5 py-0.5 text-blue-700 mt-4"
+    class="w-fit flex items-center justify-center rounded-full bg-blue-100 px-2.5 py-0.5 text-blue-700 mt-4"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +37,6 @@ const priceConvert = computed(() => {
       <path d="M12 7v10"></path>
     </svg>
 
-    <p class="whitespace-nowrap text-sm ml-2">{{ priceConvert }}</p>
+    <p class="whitespace-nowrap text-sm ml-2 mt-1">{{ priceConvert }} VND</p>
   </span>
 </template>

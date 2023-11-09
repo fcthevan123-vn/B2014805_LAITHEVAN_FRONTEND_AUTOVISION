@@ -9,6 +9,7 @@ import { LoadingPage } from "../views";
 
 const userStore = useUserStore();
 const isLoading = ref(false);
+
 onMounted(async () => {
   await handleGetProfile();
 });

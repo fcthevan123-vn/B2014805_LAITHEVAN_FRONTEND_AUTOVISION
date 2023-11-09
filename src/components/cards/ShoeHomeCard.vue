@@ -5,6 +5,7 @@ import { HangHoaTS } from "../../utils/allTypeTs";
 import { computed } from "vue";
 const props = defineProps<{
   data: HangHoaTS;
+  isShowAll?: boolean;
 }>();
 
 const urlImage = computed(() => {
@@ -37,7 +38,7 @@ const urlImage = computed(() => {
 
     <PriceBadge :price="props.data.Gia" />
 
-    <div class="flex gap-3 mt-4">
+    <div v-if="!isShowAll" class="flex gap-3 mt-4">
       <ButtonCard label="Mua ngay" />
       <ButtonCard label="Thêm vào giỏ hàng" />
     </div>

@@ -10,6 +10,14 @@ export type UserTS = {
   __v: number;
 };
 
+export type CartTS = {
+  MSKH: string;
+  MSHH: string;
+  SoLuong: string;
+  MauSac: string;
+  Size: number;
+};
+
 export type StaffTS = {
   _id: string;
   HoTenNV: string;

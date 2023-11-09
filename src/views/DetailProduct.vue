@@ -22,7 +22,7 @@
                 </span>
                 <span
                   :class="[
-                    selected ? 'ring-indigo-500' : 'ring-transparent',
+                    selected ? 'ring-blue-500' : 'ring-transparent',
                     'absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none',
                   ]"
                   aria-hidden="true"
@@ -169,16 +169,36 @@
                 <h3 class="font-medium text-gray-600 text-md mb-1">
                   Số lượng:
                 </h3>
-                <input
-                  type="number"
-                  v-model="quantity"
-                  min="1"
-                  max="10"
-                  oninput="validity.valid||(value='');"
-                  id="SoLuong"
-                  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  placeholder="Tối thiểu 1 và tối đa 10"
-                />
+                <p class="text-xs text-gray-600 text-md mb-1">
+                  Có {{ product?.SoLuongHang }} sản phẩm
+                </p>
+                <div class="flex">
+                  <input
+                    type="number"
+                    v-model="quantity"
+                    readonly
+                    id="SoLuong"
+                    class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-l-lg"
+                    placeholder="Tối thiểu 1 và tối đa 10"
+                  />
+                  <div class="flex">
+                    <Button
+                      icon="pi pi-plus"
+                      size="small"
+                      aria-label="Filter"
+                      class="rounded-none p-0 w-10"
+                      @click="handleIncreaseQuantity"
+                    />
+
+                    <Button
+                      icon="pi pi-minus"
+                      aria-label="Filter"
+                      severity="danger"
+                      @click="handleDecreaseQuantity"
+                      class="rounded-none p-0 w-10 rounded-r-lg text-xs"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -222,26 +242,21 @@
             </div>
 
             <div class="flex w-full gap-5 mt-10 sm:flex-col1">
-              <button
-                class="flex items-center justify-between w-1/2 gap-4 px-2 py-3 text-blue-500 transition-colors border border-current group rounded-xl hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
-              >
-                <span
-                  class="w-full text-sm font-medium text-center transition-colors group-hover:text-white"
-                >
-                  Mua ngay
-                </span>
-              </button>
+              <Button
+                label="Mua ngay"
+                outlined
+                class="w-1/3 rounded-xl"
+                severity="info"
+              />
 
-              <button
-                @click="handleAddToCart()"
-                class="flex items-center justify-between w-1/2 gap-4 px-2 py-3 text-blue-500 transition-colors border border-current group rounded-xl hover:bg-blue-500 focus:outline-none focus:ring active:bg-blue-500"
-              >
-                <span
-                  class="w-full text-sm font-medium text-center transition-colors group-hover:text-white"
-                >
-                  Thêm vào giỏ hàng
-                </span>
-              </button>
+              <Button
+                :disabled="isLoading"
+                outlined
+                label="Thêm vào giỏ hàng"
+                class="w-1/2 p-1 lg:w-1/3 rounded-xl"
+                severity="info"
+                @click="handleAddToCart(product?._id as string)"
+              />
             </div>
           </form>
         </div>
@@ -296,6 +311,7 @@
     <div class="mb-16">
       <RelateProduct></RelateProduct>
     </div>
+    <Toast />
   </div>
 </template>
 
@@ -319,13 +335,15 @@ import {
   TabPanels,
 } from "@headlessui/vue";
 import RelateProduct from "../components/relateProduct/RelateProduct.vue";
-
+import Toast from "primevue/toast";
 import { useRoute } from "vue-router";
 import { ProductService } from "../services";
 import { HangHoaTS } from "../utils/allTypeTs";
 import { useUserStore } from "../stores/userStore";
 import router from "../router";
-
+import { useToast } from "primevue/usetoast";
+import CartService from "../services/cartService";
+import { ConvertErrorMessage } from "../utils/importAllComponent";
 const mockData = {
   rating: 4,
   colors: [
@@ -367,12 +385,66 @@ const selectedColor = ref(mockData.colors[0]);
 const route = useRoute();
 const id = ref(route.params.id);
 const userStore = useUserStore();
+const toast = useToast();
+const isLoading = ref(false);
 
-async function handleAddToCart() {
+const handleIncreaseQuantity = () => {
+  if (quantity.value === 10) {
+    return toast.add({
+      severity: "warn",
+      summary: "Quá số lượng",
+      detail: "Tối đa là 10",
+      life: 2000,
+    });
+  }
+  return quantity.value++;
+};
+
+const handleDecreaseQuantity = () => {
+  if (quantity.value === 1) {
+    return toast.add({
+      severity: "warn",
+      summary: "Lỗi số lượng",
+      detail: "Tối thiểu phải là 1",
+      life: 2000,
+    });
+  }
+  return quantity.value--;
+};
+
+async function handleAddToCart(id: string) {
   if (!userStore.getStateLogin()) {
     router.push("/login");
   } else {
-    alert("add to cart");
+    isLoading.value = true;
+    const dataPass = {
+      MSKH: userStore.getUser()._id,
+      MSHH: id,
+      SoLuong: quantity.value,
+      Size: selected.value.name,
+      MauSac: selectedColor.value.name,
+    };
+
+    try {
+      const res = await CartService.AddToCart(dataPass);
+      if (res.statusCode === 0) {
+        toast.add({
+          severity: "success",
+          summary: "Thêm giỏ hàng",
+          detail: "Sản phẩm đã được thêm vào giỏ hàng của bạn",
+          life: 2000,
+        });
+      }
+      isLoading.value = false;
+    } catch (error) {
+      isLoading.value = false;
+      toast.add({
+        severity: "error",
+        summary: "Thêm giỏ hàng",
+        detail: ConvertErrorMessage(error as Error),
+        life: 2000,
+      });
+    }
   }
 }
 
@@ -393,7 +465,7 @@ async function handleGetProduct(id: string) {
 </script>
 
 <style scoped>
-.p-inputtext {
-  padding: 0px !important;
+.p-button {
+  padding: 0.5rem 0rem !important;
 }
 </style>

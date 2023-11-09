@@ -8,3 +8,7 @@
   @tailwind components;
   @tailwind utilities;
 }
+.p-toast .p-toast-message .p-toast-message-content {
+  padding: 0.7rem;
+  border-width: 0px;
+}

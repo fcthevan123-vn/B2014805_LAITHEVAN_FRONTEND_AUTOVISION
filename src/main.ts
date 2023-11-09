@@ -7,24 +7,14 @@ import App from "./App.vue";
 import { createPinia } from "pinia";
 import router from "./router";
 import PrimeVue from "primevue/config";
-import ToastService from "primevue/toastservice";
-import Dialog from "primevue/dialog";
-import Button from "primevue/button";
-import ConfirmationService from "primevue/confirmationservice";
-import DialogService from "primevue/dialogservice";
-
+import { ImportComponent } from "./utils/importAllComponent";
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
 
-app.use(ToastService);
-app.use(DialogService);
-
 app.use(PrimeVue);
 
-app.component("Dialog", Dialog);
-app.component("Button", Button);
-app.use(ConfirmationService);
+ImportComponent(app);
 
 app.mount("#app");
