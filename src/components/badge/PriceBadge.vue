@@ -6,10 +6,7 @@ const props = defineProps({
 });
 
 const priceConvert = computed(() => {
-  return props.price.toLocaleString("vi", {
-    style: "currency",
-    currency: "VND",
-  });
+  return parseInt(props.price as unknown as string).toLocaleString("vi");
 });
 </script>
 

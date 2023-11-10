@@ -12,6 +12,10 @@ const CartService = {
     const res = await axios.get(`/api/v1/cart/${id}`);
     return res.data;
   },
+  async UpdateCart(data: object) {
+    const res = await axios.patch(`/api/v1/cart/update`, data);
+    return res.data;
+  },
 };
 
 export default CartService;

@@ -105,7 +105,7 @@ async function handleLogout() {
         </div>
 
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
-          <RouterLink v-if="isLoggedIn" to="/cart">
+          <RouterLink v-if="isLoggedIn" :to="'/cart/' + userData._id">
             <button
               type="button"
               style="height: 38px"

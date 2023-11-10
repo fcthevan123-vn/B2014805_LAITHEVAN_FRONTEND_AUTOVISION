@@ -50,7 +50,12 @@
 
           <div class="mt-3">
             <h2 class="sr-only">Product information</h2>
-            <p class="text-2xl text-gray-900">{{ product?.Gia }}</p>
+            <p class="text-2xl text-gray-900">
+              {{
+                parseInt(product?.Gia as unknown as string).toLocaleString("vi")
+              }}
+              VND
+            </p>
           </div>
 
           <!-- Reviews -->
@@ -243,6 +248,7 @@
 
             <div class="flex w-full gap-5 mt-10 sm:flex-col1">
               <Button
+                :disabled="isDisabledBtn"
                 label="Mua ngay"
                 outlined
                 class="w-1/3 rounded-xl"
@@ -250,7 +256,7 @@
               />
 
               <Button
-                :disabled="isLoading"
+                :disabled="isLoading || isDisabledBtn"
                 outlined
                 label="Thêm vào giỏ hàng"
                 class="w-1/2 p-1 lg:w-1/3 rounded-xl"
@@ -316,7 +322,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import {
   Listbox,
   ListboxButton,
@@ -388,12 +394,27 @@ const userStore = useUserStore();
 const toast = useToast();
 const isLoading = ref(false);
 
+const isDisabledBtn = computed(() => {
+  if (product.value) {
+    return product?.value?.SoLuongHang > 0 ? false : true;
+  }
+  return false;
+});
+
 const handleIncreaseQuantity = () => {
   if (quantity.value === 10) {
     return toast.add({
       severity: "warn",
       summary: "Quá số lượng",
       detail: "Tối đa là 10",
+      life: 2000,
+    });
+  }
+  if (quantity.value == product.value?.SoLuongHang) {
+    return toast.add({
+      severity: "warn",
+      summary: "Quá số lượng",
+      detail: `Sản phẩm này chỉ có ${product.value?.SoLuongHang} sản phẩm`,
       life: 2000,
     });
   }
@@ -439,9 +460,9 @@ async function handleAddToCart(id: string) {
     } catch (error) {
       isLoading.value = false;
       toast.add({
-        severity: "error",
-        summary: "Thêm giỏ hàng",
-        detail: ConvertErrorMessage(error as Error),
+        severity: "warn",
+        summary: ConvertErrorMessage(error as Error),
+        detail: "Vào giỏ hàng để sửa số lượng sản phẩm",
         life: 2000,
       });
     }
