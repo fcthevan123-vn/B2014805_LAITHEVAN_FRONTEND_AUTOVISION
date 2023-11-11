@@ -13,7 +13,7 @@ export type UserTS = {
 export type CartTS = {
   _id?: string;
   MSKH: string;
-  MSHH: HangHoaTS[];
+  MSHH: HangHoaTS;
   SoLuong: string;
   MauSac: string;
   Size: number;

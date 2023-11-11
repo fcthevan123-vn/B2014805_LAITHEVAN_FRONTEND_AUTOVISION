@@ -52,7 +52,7 @@
               class="border-t border-gray-200 pt-4 flex items-center justify-between"
             >
               <dt class="flex text-sm text-gray-600">
-                <span>Thuế</span>
+                <span>Thuế (2%)</span>
                 <a
                   href="#"
                   class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
@@ -144,7 +144,7 @@
           </ul>
         </section>
         <div class="flex justify-between items-center">
-          <p class="font-bold mt-3">Tổng giá tiền:</p>
+          <p class="font-bold mt-3">Tổng giá tiền: (Đã bao gồm thuế 2%)</p>
           <p class="font-bold mt-3">
             {{ totalPrice.toLocaleString("vi") }} VND
           </p>
@@ -218,20 +218,23 @@
       </div>
     </div>
   </Dialog>
+  <Toast></Toast>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import InputText from "primevue/inputtext";
 
 import { useRoute } from "vue-router";
 import CartService from "../services/cartService";
 import CartCard from "../components/cards/CartCard.vue";
 import { useUserStore } from "../stores/userStore";
-import { CartTS } from "../utils/allTypeTs";
+import Toast from "primevue/toast";
 
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import OrderService from "../services/orderService";
+import { useToast } from "primevue/usetoast";
+import { ConvertErrorMessage } from "../utils/importAllComponent";
 
 const { values, setValues, errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
@@ -252,6 +255,8 @@ const { values, setValues, errors, defineInputBinds, handleSubmit } = useForm({
       .required("Tên người dùng trống"),
   }),
 });
+
+const toast = useToast();
 
 const HoTenKH = defineInputBinds("HoTenKH");
 const DiaChi = defineInputBinds("DiaChi");
@@ -276,7 +281,7 @@ watch(carts, () => {
   taxPrice.value = 0;
   for (let i = 0; i < carts.value.length; i++) {
     allPrice.value +=
-      parseInt(carts.value[i].MSHH[0].Gia) * parseInt(carts.value[i].SoLuong);
+      parseInt(carts.value[i].MSHH.Gia) * parseInt(carts.value[i].SoLuong);
   }
   if (carts.value.length > 0) {
     isShow.value = true;
@@ -289,11 +294,6 @@ setValues({
   DiaChi: userStore.getUser().DiaChi,
   SoDienThoai: userStore.getUser().SoDienThoai,
 });
-
-// const price = reactive({
-//   priceOriginal: ,
-
-// })
 
 onMounted(() => {
   handleGetCart(id.value as string);
@@ -315,10 +315,31 @@ async function handleGetCart(id: string) {
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    console.log("values", values);
+    const dataPass = {
+      MSKH: userStore.getUser()._id,
+      DonHang: carts.value,
+      ...values,
+    };
+
+    const res = await OrderService.CreateOrder(dataPass);
+    if (res.statusCode === 0) {
+      toast.add({
+        severity: "success",
+        summary: "Đặt hàng",
+        detail: res.message,
+        life: 2000,
+      });
+
+      handleGetCart(id.value as string);
+      open.value = false;
+    }
   } catch (error) {
-    const err = error as Error;
-    throw err;
+    toast.add({
+      severity: "error",
+      summary: "Đặt hàng",
+      detail: ConvertErrorMessage(error as Error),
+      life: 2000,
+    });
   }
 });
 </script>

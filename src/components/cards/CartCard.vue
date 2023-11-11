@@ -1,7 +1,7 @@
 <template>
   <div class="flex-shrink-0">
     <img
-      :src="props.data.MSHH[0].HinhHH[0].UrlHinh"
+      :src="props.data.MSHH.HinhHH[0].UrlHinh"
       alt="error"
       class="rounded-md object-center object-cover w-24 h-24"
       :class="{
@@ -17,7 +17,7 @@
         <div class="flex justify-between">
           <h3 class="text-sm">
             <a class="font-medium text-gray-700 hover:text-gray-800">
-              {{ props.data?.MSHH[0].TenHH }}
+              {{ props.data?.MSHH.TenHH }}
             </a>
           </h3>
         </div>
@@ -31,7 +31,7 @@
         </div>
         <p class="text-gray-500 text-sm">Số lượng {{ props.data?.SoLuong }}</p>
         <p v-if="!isSmall" class="text-gray-500 text-sm">
-          Có {{ props.data?.MSHH[0].SoLuongHang }} sản phẩm
+          Có {{ props.data?.MSHH.SoLuongHang }} sản phẩm
         </p>
         <p class="mt-1 text-sm font-medium text-gray-900">
           {{ priceProduct }}
@@ -103,7 +103,7 @@ const props = defineProps<{
 
 const isSmall = ref(props.isSmall);
 const priceProduct = computed(() => {
-  const price = parseInt(props.data.SoLuong) * props.data.MSHH[0].Gia;
+  const price = parseInt(props.data.SoLuong) * props.data.MSHH.Gia;
   return price.toLocaleString("vi");
 });
 
@@ -120,11 +120,11 @@ const handleIncreaseQuantity = () => {
       life: 2000,
     });
   }
-  if (quantity.value == props.data.MSHH[0].SoLuongHang) {
+  if (quantity.value == props.data.MSHH.SoLuongHang) {
     return toast.add({
       severity: "warn",
       summary: "Quá số lượng",
-      detail: `Sản phẩm này chỉ có ${props.data.MSHH[0].SoLuongHang} sản phẩm`,
+      detail: `Sản phẩm này chỉ có ${props.data.MSHH.SoLuongHang} sản phẩm`,
       life: 2000,
     });
   }
@@ -149,7 +149,7 @@ async function updateCart() {
   try {
     const dataPass = {
       cartId: props.data._id,
-      MSHH: props.data.MSHH[0]._id,
+      MSHH: props.data.MSHH._id,
       SoLuong: quantity.value,
     };
 

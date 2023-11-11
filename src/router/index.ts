@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import AdminLayout from "../layouts/AdminLayout.vue";
-
+import UserLayout from "../layouts/UserLayout.vue";
 import {
   AboutPage,
   AdminHomePage,
@@ -15,6 +15,8 @@ import {
 } from "../views";
 import { AdminLoginPage, AdminManagerProduct } from "../views/Adminpages";
 import { useStaffStore } from "../stores/staffStore";
+import { UserProfile } from "../views/Userpages";
+import { useUserStore } from "../stores/userStore";
 const routes = [
   {
     path: "/",
@@ -58,6 +60,7 @@ const routes = [
       },
     ],
   },
+  // admin layout
   {
     path: "/admin",
     name: "adminLayout",
@@ -82,6 +85,21 @@ const routes = [
     name: "adminLogin",
     component: AdminLoginPage,
   },
+
+  // User layout
+  {
+    path: "/user",
+    name: "userLayout",
+    component: UserLayout,
+    children: [
+      {
+        path: "",
+        name: "userProfile",
+        component: UserProfile,
+        meta: { requiresAuth: true },
+      },
+    ],
+  },
   {
     path: "/error",
     name: "error",
@@ -96,12 +114,16 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from) => {
-  if (to.meta.requiresAuth) {
+// Kiểm tra xem người dùng có đang đăng nhập hay không
+router.afterEach((to, from) => {
+  const userStore = useUserStore();
+  const userLogin = userStore.getStateLogin();
+  if (to.meta.requiresAuth && !userLogin) {
     return { name: "login" };
   }
 });
 
+// Kiểm tra xem nhân viên có đang đăng nhập hay không
 router.afterEach((to, from) => {
   const staffStore = useStaffStore();
   const staffLogin = staffStore.getStateLogin();
