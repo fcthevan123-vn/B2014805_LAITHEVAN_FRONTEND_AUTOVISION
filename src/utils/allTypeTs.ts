@@ -49,6 +49,28 @@ export type HangHoaTS = {
   NoiBat?: string;
 };
 
+export type DatHangTS = {
+  _id?: string;
+  MSKH: string | UserTS;
+  MSNV: string | StaffTS;
+  SodonDH: ChiTietDatHangTS[];
+  NgayGH: string;
+  NgayDH: string;
+  DiaChi: string;
+  HoTenNguoiNhan: string;
+  SoDienThoai: string;
+};
+
+export type ChiTietDatHangTS = {
+  _id?: string;
+  MSKH: string;
+  MSHH: HangHoaTS;
+  Size: string;
+  MauSac: string;
+  SoLuong: string;
+  GiaDatHang: number;
+};
+
 export type HinhHH = {
   _id: string;
   TenHinh: string;

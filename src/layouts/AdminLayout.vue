@@ -13,6 +13,7 @@ import {
   IconX,
   IconShoe,
   IconSearch,
+  IconList,
 } from "@tabler/icons-vue";
 import { useStaffStore } from "../stores/staffStore";
 import { AuthService } from "../services";
@@ -199,10 +200,8 @@ const handleLogout = async () => {
       </Dialog>
     </TransitionRoot>
 
-    <!-- Static sidebar for desktop -->
     <div class="hidden lg:flex lg:flex-shrink-0">
       <div class="flex flex-col w-64">
-        <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div
           class="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100"
         >
@@ -216,29 +215,71 @@ const handleLogout = async () => {
             </div>
             <nav class="mt-5 flex-1" aria-label="Sidebar">
               <div class="px-2 space-y-1">
-                <a
-                  v-for="item in navigation"
-                  :key="item.name"
-                  :href="item.href"
+                <RouterLink
+                  to="/admin"
                   :class="[
-                    item.current
+                    $route.path === '/admin'
                       ? 'bg-gray-200 text-gray-900'
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                     'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                   ]"
                 >
                   <component
-                    :is="item.icon"
+                    :is="IconHome"
                     :class="[
-                      item.current
+                      $route.path === '/admin'
                         ? 'text-gray-500'
                         : 'text-gray-400 group-hover:text-gray-500',
                       'mr-3 h-6 w-6',
                     ]"
                     aria-hidden="true"
                   />
-                  {{ item.name }}
-                </a>
+                  Tổng quan
+                </RouterLink>
+
+                <RouterLink
+                  to="/admin/manage-orders"
+                  :class="[
+                    $route.path === '/admin/manage-orders'
+                      ? 'bg-gray-200 text-gray-900'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  ]"
+                >
+                  <component
+                    :is="IconList"
+                    :class="[
+                      $route.path === '/admin/manage-orders'
+                        ? 'text-gray-500'
+                        : 'text-gray-400 group-hover:text-gray-500',
+                      'mr-3 h-6 w-6',
+                    ]"
+                    aria-hidden="true"
+                  />
+                  Quản lý đơn hàng
+                </RouterLink>
+
+                <RouterLink
+                  to="/admin/manage-products"
+                  :class="[
+                    $route.path === '/admin/manage-products'
+                      ? 'bg-gray-200 text-gray-900'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  ]"
+                >
+                  <component
+                    :is="IconShoe"
+                    :class="[
+                      $route.path === '/admin/manage-products'
+                        ? 'text-gray-500'
+                        : 'text-gray-400 group-hover:text-gray-500',
+                      'mr-3 h-6 w-6',
+                    ]"
+                    aria-hidden="true"
+                  />
+                  Quản lý sản phẩm
+                </RouterLink>
               </div>
             </nav>
           </div>

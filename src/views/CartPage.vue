@@ -48,7 +48,7 @@
               </dd>
             </div>
 
-            <div
+            <!-- <div
               class="border-t border-gray-200 pt-4 flex items-center justify-between"
             >
               <dt class="flex text-sm text-gray-600">
@@ -66,7 +66,7 @@
               <dd class="text-sm font-medium text-gray-900">
                 {{ taxPrice.toLocaleString("vi") }} VND
               </dd>
-            </div>
+            </div> -->
             <div
               class="border-t border-gray-200 pt-4 flex items-center justify-between"
             >
@@ -144,7 +144,7 @@
           </ul>
         </section>
         <div class="flex justify-between items-center">
-          <p class="font-bold mt-3">Tổng giá tiền: (Đã bao gồm thuế 2%)</p>
+          <p class="font-bold mt-3">Tổng giá tiền:</p>
           <p class="font-bold mt-3">
             {{ totalPrice.toLocaleString("vi") }} VND
           </p>
@@ -270,8 +270,9 @@ const carts = ref();
 const isShow = ref(false);
 const allPrice = ref(0);
 const taxPrice = ref(0);
+
 const totalPrice = computed(() => {
-  return allPrice.value + taxPrice.value;
+  return allPrice.value;
 });
 
 const userStore = useUserStore();

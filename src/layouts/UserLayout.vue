@@ -11,8 +11,7 @@ import {
   IconUsersGroup,
   IconMenu,
   IconX,
-  IconShoe,
-  IconSearch,
+  IconList,
 } from "@tabler/icons-vue";
 import { AuthService } from "../services";
 import router from "../router";
@@ -20,15 +19,19 @@ import { LoadingPage } from "../views";
 import { useUserStore } from "../stores/userStore";
 
 const navigation = [
-  { name: "Trang chủ", href: "#", icon: IconHome, current: true },
-  { name: "Tất cả giày", href: "#", icon: IconShoe, current: false },
+  { name: "Tổng quan", href: "/user", icon: IconHome, current: true },
   {
-    name: "Quản lý tài khoản",
+    name: "Tất cả đơn hàng",
+    href: "/user/all-orders",
+    icon: IconList,
+    current: false,
+  },
+  {
+    name: "Thông tin cá nhân",
     href: "#",
     icon: IconUsersGroup,
     current: false,
   },
-  { name: "Khác", href: "#", icon: IconSearch, current: false },
 ];
 
 const sidebarOpen = ref(false);
@@ -199,10 +202,8 @@ const handleLogout = async () => {
       </Dialog>
     </TransitionRoot>
 
-    <!-- Static sidebar for desktop -->
     <div class="hidden lg:flex lg:flex-shrink-0">
       <div class="flex flex-col w-64">
-        <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div
           class="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100"
         >
@@ -216,7 +217,7 @@ const handleLogout = async () => {
             </div>
             <nav class="mt-5 flex-1" aria-label="Sidebar">
               <div class="px-2 space-y-1">
-                <a
+                <!-- <a
                   v-for="item in navigation"
                   :key="item.name"
                   :href="item.href"
@@ -238,7 +239,50 @@ const handleLogout = async () => {
                     aria-hidden="true"
                   />
                   {{ item.name }}
-                </a>
+                </a> -->
+                <RouterLink
+                  to="/user"
+                  :class="[
+                    $route.path === '/user'
+                      ? 'bg-gray-200 text-gray-900'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  ]"
+                >
+                  <component
+                    :is="IconHome"
+                    :class="[
+                      $route.path === '/user'
+                        ? 'text-gray-500'
+                        : 'text-gray-400 group-hover:text-gray-500',
+                      'mr-3 h-6 w-6',
+                    ]"
+                    aria-hidden="true"
+                  />
+                  Tổng quan
+                </RouterLink>
+
+                <RouterLink
+                  to="/user/all-orders"
+                  :class="[
+                    $route.path === '/user/all-orders'
+                      ? 'bg-gray-200 text-gray-900'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  ]"
+                >
+                  <component
+                    :is="IconList"
+                    :class="[
+                      $route.path === '/user/all-orders'
+                        ? 'text-gray-500'
+                        : 'text-gray-400 group-hover:text-gray-500',
+                      'mr-3 h-6 w-6',
+                    ]"
+                    aria-hidden="true"
+                  />
+                  Tất cả đơn hàng
+                </RouterLink>
               </div>
             </nav>
           </div>

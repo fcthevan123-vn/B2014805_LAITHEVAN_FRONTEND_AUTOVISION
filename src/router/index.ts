@@ -13,10 +13,15 @@ import {
   LoginPage,
   RegisterPage,
 } from "../views";
-import { AdminLoginPage, AdminManagerProduct } from "../views/Adminpages";
+import {
+  AdminLoginPage,
+  AdminManagerProduct,
+  AdminManagerOrder,
+} from "../views/Adminpages";
 import { useStaffStore } from "../stores/staffStore";
-import { UserProfile } from "../views/Userpages";
+import { UserAllOrder, UserProfile } from "../views/Userpages";
 import { useUserStore } from "../stores/userStore";
+
 const routes = [
   {
     path: "/",
@@ -78,6 +83,12 @@ const routes = [
         component: AdminManagerProduct,
         meta: { requireAdmin: true },
       },
+      {
+        path: "/admin/manage-orders",
+        name: "adminManageOrders",
+        component: AdminManagerOrder,
+        meta: { requireAdmin: true },
+      },
     ],
   },
   {
@@ -96,6 +107,12 @@ const routes = [
         path: "",
         name: "userProfile",
         component: UserProfile,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/user/all-orders",
+        name: "userAllOrder",
+        component: UserAllOrder,
         meta: { requiresAuth: true },
       },
     ],
