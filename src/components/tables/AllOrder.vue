@@ -30,12 +30,15 @@
       <Column field="DiaChi" header="Thông tin sản phẩm" class="text-sm">
         <template #body="slotProps">
           <div v-for="data in slotProps.data.SoDonDH">
-            <div class="mb-4">
-              <p class="font-semibold">
+            <div class="mb-4 flex flex-col gap-1">
+              <RouterLink
+                :to="'/product/' + data.MSHH._id"
+                class="font-semibold hover:underline"
+              >
                 {{ data.MSHH.TenHH }}
-              </p>
+              </RouterLink>
               <button
-                class="bg-blue-500 text-white text-xs py-1 px-2 rounded-md"
+                class="bg-blue-500 w-32 text-white text-xs py-1 px-2 rounded-md"
                 @click="
                   (e) => {
                     toggle(e);
@@ -165,7 +168,7 @@
                 }
               "
             >
-              <IconTrash :size="20"></IconTrash>
+              <IconChecks :size="20"></IconChecks>
             </button>
           </div>
         </template>
@@ -204,7 +207,7 @@ import Dropdown from "primevue/dropdown";
 import OverlayPanel from "primevue/overlaypanel";
 import moment from "moment";
 import Toast from "primevue/toast";
-import { IconTrash } from "@tabler/icons-vue";
+import { IconChecks, IconTrash } from "@tabler/icons-vue";
 
 const orders = ref();
 const dataPassForm = ref();

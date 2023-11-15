@@ -2,7 +2,11 @@
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { AuthService } from "../services";
-const { values, errors, defineInputBinds, handleSubmit } = useForm({
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+import { ConvertErrorMessage } from "../utils/importAllComponent";
+
+const { errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().email("Email không hợp lệ").required("Email trống"),
     password: yup
@@ -13,23 +17,35 @@ const { values, errors, defineInputBinds, handleSubmit } = useForm({
 });
 
 const email = defineInputBinds("email");
-
 const password = defineInputBinds("password");
+
+const toast = useToast();
 
 const onSubmit = handleSubmit(async (values) => {
   try {
     const res = await AuthService.login(values.email, values.password);
     if (res.statusCode === 0) {
+      toast.add({
+        severity: "success",
+        summary: "Đăng nhập",
+        detail: res.message,
+        life: 2000,
+      });
       window.location.replace("/");
     }
   } catch (error) {
-    const err = error as Error;
-    throw err;
+    toast.add({
+      severity: "error",
+      summary: "Đăng nhập",
+      detail: ConvertErrorMessage(error as Error),
+      life: 2000,
+    });
   }
 });
 </script>
 
 <template>
+  <Toast></Toast>
   <div
     class="mt-24 mb-20 border flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-full"
   >

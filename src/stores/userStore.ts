@@ -37,7 +37,7 @@ export const useUserStore = defineStore({
         createdAt: "",
         updatedAt: "",
       };
-      router.push("/login");
+      // router.push("/login");
     },
     setIsLogin(state: boolean) {
       this.isLogin = state;

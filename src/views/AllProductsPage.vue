@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="container px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <div class="container mb-56 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <header>
         <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">
           Tất cả các sản phẩm
@@ -53,7 +53,7 @@
           </button>
         </div>
 
-        <div>
+        <!-- <div>
           <label for="SortBy" class="sr-only">SortBy</label>
 
           <select id="SortBy" class="h-10 rounded border-gray-300 text-sm">
@@ -63,7 +63,7 @@
             <option value="Price, DESC">Price, DESC</option>
             <option value="Price, ASC">Price, ASC</option>
           </select>
-        </div>
+        </div> -->
       </div>
 
       <ul class="mt-4 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -88,7 +88,7 @@ async function handleGetAllProducts() {
   try {
     const res = await ProductService.getAllProducts();
     if (res.statusCode === 0) {
-      products.value = res.data.splice(0, 4);
+      products.value = res.data;
     }
   } catch (error) {
     const err = error as Error;

@@ -177,7 +177,7 @@ const handleGetAllProducts = async () => {
 };
 
 const formatCurrency = (value: string) => {
-  return value.toLocaleString();
+  return parseInt(value).toLocaleString("vi");
 };
 </script>
 

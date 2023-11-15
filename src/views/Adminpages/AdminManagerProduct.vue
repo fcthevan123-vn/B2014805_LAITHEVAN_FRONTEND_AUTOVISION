@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <p class="text-xl font-semibold text-blue-500">Quản lý tất cả sản phẩm</p>
+  </div>
   <div class="card flex justify-content-center">
     <Toast />
   </div>
@@ -34,20 +37,19 @@
 import { ref } from "vue";
 import FormAddProduct from "../../components/forms/FormAddProduct.vue";
 import Toast from "primevue/toast";
-import { useToast } from "primevue/usetoast";
 import AllProductsTable from "../../components/tables/allProductsTable.vue";
 const visible = ref(false);
 
-const toast = useToast();
+// const toast = useToast();
 
-const show = () => {
-  toast.add({
-    severity: "info",
-    summary: "Info",
-    detail: "Message Content",
-    life: 2000,
-  });
-};
+// const show = () => {
+//   toast.add({
+//     severity: "info",
+//     summary: "Info",
+//     detail: "Message Content",
+//     life: 2000,
+//   });
+// };
 
 const closeModal = () => {
   visible.value = false;

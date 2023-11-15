@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
+import Toast from "primevue/toast";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { UserService } from "../services";
-const { values, errors, defineInputBinds, handleSubmit } = useForm({
+import { useToast } from "primevue/usetoast";
+import { ConvertErrorMessage } from "../utils/importAllComponent";
+import router from "../router";
+const { errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().email("Email không hợp lệ").required("Email trống"),
     HoTenKH: yup
@@ -40,22 +42,33 @@ const DiaChi = defineInputBinds("DiaChi");
 const HoTenKH = defineInputBinds("HoTenKH");
 const repassword = defineInputBinds("repassword");
 
+const toast = useToast();
+
 const onSubmit = handleSubmit(async (values) => {
   try {
     const res = await UserService.Register(values);
     if (res.statusCode === 0) {
-      console.log("res.data", res.data);
-      alert(res.message);
+      toast.add({
+        severity: "success",
+        summary: "Đăng ký",
+        detail: res.message,
+        life: 2000,
+      });
+      router.push("/login");
     }
   } catch (error) {
-    const err = error as Error;
-    alert(err.message);
-    console.log("error", error.response.data.message);
+    toast.add({
+      severity: "error",
+      summary: "Đăng ký",
+      detail: ConvertErrorMessage(error as Error),
+      life: 2000,
+    });
   }
 });
 </script>
 
 <template>
+  <Toast></Toast>
   <div
     class="mt-16 mb-20 border flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-full"
   >

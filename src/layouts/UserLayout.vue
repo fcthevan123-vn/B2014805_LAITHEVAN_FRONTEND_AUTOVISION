@@ -134,11 +134,13 @@ const handleLogout = async () => {
             </TransitionChild>
             <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
               <div class="flex-shrink-0 flex items-center px-4">
-                <img
-                  class="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-900-text.svg"
-                  alt="Workflow"
-                />
+                <div>
+                  <a
+                    class="text-xl lg:inline-block py-2 text-blue-500 font-bold underline underline-offset-4"
+                    href="/"
+                    >AutoVisions
+                  </a>
+                </div>
               </div>
               <nav aria-label="Sidebar" class="mt-5">
                 <div class="px-2 space-y-1">

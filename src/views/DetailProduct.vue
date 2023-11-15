@@ -41,7 +41,6 @@
           </TabPanels>
         </TabGroup>
 
-        <!-- Product info -->
         <div class="px-4 mt-10 sm:px-0 sm:mt-16 lg:mt-0">
           <p class="text-lg font-medium text-blue-500">Nike</p>
           <h1 class="text-3xl font-bold tracking-tight text-gray-900">
@@ -58,7 +57,6 @@
             </p>
           </div>
 
-          <!-- Reviews -->
           <div class="mt-3">
             <h3 class="sr-only">Reviews</h3>
             <div class="flex items-center">
@@ -91,11 +89,15 @@
           <div class="mt-6">
             <h3 class="sr-only">Description</h3>
             <h3 class="font-medium text-gray-600 text-md">Mô tả:</h3>
-            <div class="space-y-6 text-sm text-gray-700">
+            <div
+              class="space-y-6 text-sm h-14 break-words text-ellipsis overflow-hidden text-gray-700"
+            >
               {{ product?.MoTaHH }}
             </div>
             <h3 class="font-medium mt-5 text-gray-600 text-md">Ghi chú:</h3>
-            <div class="space-y-6 text-sm text-gray-700">
+            <div
+              class="space-y-6 text-sm h-8 break-words text-ellipsis overflow-hidden text-gray-700"
+            >
               {{ product?.GhiChu }}
             </div>
           </div>
@@ -246,8 +248,16 @@
               </RadioGroup>
             </div>
 
-            <div class="flex w-full gap-5 mt-10 sm:flex-col1">
+            <p class="mt-10 mb-3 text-sm text-red-500">
+              {{
+                userStore.getStateLogin()
+                  ? ""
+                  : "Bạn cần đăng nhập để mua hoặc thêm vào giỏ hàng!"
+              }}
+            </p>
+            <div class="flex w-full gap-5 sm:flex-col1">
               <Button
+                @click="open = true"
                 :disabled="isDisabledBtn"
                 label="Mua ngay"
                 outlined
@@ -314,9 +324,148 @@
         </div>
       </div>
     </div>
-    <div class="mb-16">
-      <RelateProduct></RelateProduct>
-    </div>
+    <div class="mb-28"></div>
+
+    <Dialog
+      v-model:visible="open"
+      modal
+      header="Xác nhận đặt hàng"
+      :style="{ width: '70rem' }"
+      :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+    >
+      <div class="sm:grid sm:grid-cols-5 sm:gap-12 flex flex-col">
+        <div class="grid-cols-1 col-span-3">
+          <section aria-labelledby="cart-heading" class="lg:col-span-7">
+            <h2 id="cart-heading" class="sr-only">
+              Items in your shopping cart
+            </h2>
+
+            <ul
+              role="list"
+              class="border-t border-b border-gray-200 divide-y divide-gray-200"
+            >
+              <li class="flex py-6 sm:py-10">
+                <div class="flex-shrink-0">
+                  <img
+                    :src="product?.HinhHH[0]?.UrlHinh || ''"
+                    alt="error"
+                    class="rounded-md object-center object-cover w-24 h-24"
+                  />
+                </div>
+
+                <div class="ml-4 flex-1 flex flex-col justify-between sm:ml-6">
+                  <div
+                    class="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0"
+                  >
+                    <div>
+                      <div class="flex justify-between">
+                        <h3 class="text-sm">
+                          <a
+                            class="font-medium text-gray-700 hover:text-gray-800"
+                          >
+                            {{ product?.TenHH }}
+                          </a>
+                        </h3>
+                      </div>
+                      <div class="mt-1 flex text-sm">
+                        <p class="text-gray-500">{{ selectedColor.name }}</p>
+                        <p
+                          class="ml-4 pl-4 border-l border-gray-300 text-gray-500"
+                        >
+                          {{ selected.name }}
+                        </p>
+                      </div>
+                      <p class="text-gray-500 text-sm">
+                        Số lượng: {{ quantity }}
+                      </p>
+
+                      <!-- <p class="mt-1 text-sm font-medium text-gray-900">
+                        gia VND
+                      </p> -->
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </section>
+          <div class="flex justify-between items-center">
+            <p class="font-bold mt-3">Tổng giá tiền:</p>
+            <p class="font-bold mt-3">
+              {{ (quantity * product?.Gia).toLocaleString("vi") }} VND
+            </p>
+          </div>
+        </div>
+        <div class="grid-cols-2 col-span-2">
+          <div
+            class="rounded-xl p-3 border border-sky-500 bg-gray-50 shadow-md"
+          >
+            <p class="font-semibold text-center text-lg mb-2">
+              Thông tin khách hàng
+            </p>
+            <form class="flex flex-col gap-5 h-full" @submit="onSubmit">
+              <div>
+                <label for="HoTenKH" class="block text-sm font-medium">
+                  Họ và tên
+                </label>
+
+                <input
+                  v-bind="HoTenKH"
+                  type="text"
+                  id="HoTenKH"
+                  placeholder="Họ và tên của bạn"
+                  class="mt-1 w-full rounded-xl border-gray-200 shadow-sm sm:text-sm"
+                />
+                <span class="text-sm text-red-500 italic">{{
+                  errors.HoTenKH
+                }}</span>
+              </div>
+              <div>
+                <label for="DiaChi" class="block text-sm font-medium">
+                  Địa chỉ nhận hàng
+                </label>
+
+                <input
+                  v-bind="DiaChi"
+                  type="text"
+                  id="DiaChi"
+                  placeholder="Địa chỉ nhận hàng"
+                  class="mt-1 w-full rounded-xl border-gray-200 shadow-sm sm:text-sm"
+                />
+                <span class="text-sm text-red-500 italic">{{
+                  errors.DiaChi
+                }}</span>
+              </div>
+
+              <div>
+                <label for="SoDienThoai" class="block text-sm font-medium">
+                  Số điện thoại
+                </label>
+
+                <input
+                  type="text"
+                  v-bind="SoDienThoai"
+                  id="SoDienThoai"
+                  placeholder="Số điện thoại"
+                  class="mt-1 w-full rounded-xl border-gray-200 shadow-sm sm:text-sm"
+                />
+                <span class="text-sm text-red-500 italic">{{
+                  errors.SoDienThoai
+                }}</span>
+              </div>
+
+              <Button
+                type="submit"
+                label="Đặt hàng ngay
+              "
+                class="rounded-xl mt-5"
+                size="small"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </Dialog>
+
     <Toast />
   </div>
 </template>
@@ -340,10 +489,12 @@ import {
   TabPanel,
   TabPanels,
 } from "@headlessui/vue";
-import RelateProduct from "../components/relateProduct/RelateProduct.vue";
+
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 import Toast from "primevue/toast";
 import { useRoute } from "vue-router";
-import { ProductService } from "../services";
+import { OrderService, ProductService } from "../services";
 import { HangHoaTS } from "../utils/allTypeTs";
 import { useUserStore } from "../stores/userStore";
 import router from "../router";
@@ -384,6 +535,7 @@ const sizes = [
   { id: 9, name: "44" },
 ];
 
+const open = ref(false);
 const selected = ref(sizes[1]);
 const quantity = ref(1);
 const product = ref<HangHoaTS>();
@@ -399,6 +551,36 @@ const isDisabledBtn = computed(() => {
     return product?.value?.SoLuongHang > 0 ? false : true;
   }
   return false;
+});
+
+const { setValues, errors, defineInputBinds, handleSubmit } = useForm({
+  validationSchema: yup.object({
+    SoDienThoai: yup
+      .string()
+      .required("Số điện thoại trống")
+      .matches(
+        /((09|03|07|08|05)+([0-9]{8})\b)/g,
+        "Số điện thoại không hợp lệ"
+      ),
+    DiaChi: yup
+      .string()
+      .required("Thiếu địa chỉ")
+      .min(5, "Địa chỉ phải có ít nhất 5 ký tự"),
+    HoTenKH: yup
+      .string()
+      .min(3, "Tên phải có ít nhất 3 ký tự")
+      .required("Tên người dùng trống"),
+  }),
+});
+
+const HoTenKH = defineInputBinds("HoTenKH");
+const DiaChi = defineInputBinds("DiaChi");
+const SoDienThoai = defineInputBinds("SoDienThoai");
+
+setValues({
+  HoTenKH: userStore.getUser().HoTenKH,
+  DiaChi: userStore.getUser().DiaChi,
+  SoDienThoai: userStore.getUser().SoDienThoai,
 });
 
 const handleIncreaseQuantity = () => {
@@ -461,8 +643,8 @@ async function handleAddToCart(id: string) {
       isLoading.value = false;
       toast.add({
         severity: "warn",
-        summary: ConvertErrorMessage(error as Error),
-        detail: "Vào giỏ hàng để sửa số lượng sản phẩm",
+        summary: "Thêm giỏ hàng",
+        detail: ConvertErrorMessage(error as Error),
         life: 2000,
       });
     }
@@ -483,6 +665,47 @@ async function handleGetProduct(id: string) {
     console.log("error", error);
   }
 }
+
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    const dataPass = {
+      MSKH: userStore.getUser()._id,
+      DonHang: [
+        {
+          MSKH: userStore.getUser()._id,
+          MSHH: product.value,
+          SoLuong: quantity.value,
+          Size: selected.value.name,
+          MauSac: selectedColor.value.name,
+        },
+      ],
+      DiaChi: DiaChi.value.value,
+      SoDienThoai: SoDienThoai.value.value,
+      HoTenKH: HoTenKH.value.value,
+      isBuyNow: true,
+    };
+
+    const res = await OrderService.CreateOrder(dataPass);
+    if (res.statusCode === 0) {
+      toast.add({
+        severity: "success",
+        summary: "Đặt hàng",
+        detail: res.message,
+        life: 2000,
+      });
+      setTimeout(() => router.push("/user/all-orders"), 1000);
+      open.value = false;
+    }
+  } catch (error) {
+    toast.add({
+      severity: "error",
+      summary: "Đặt hàng",
+      detail: ConvertErrorMessage(error as Error),
+      life: 2000,
+    });
+    setTimeout(() => window.location.reload(), 1000);
+  }
+});
 </script>
 
 <style scoped>

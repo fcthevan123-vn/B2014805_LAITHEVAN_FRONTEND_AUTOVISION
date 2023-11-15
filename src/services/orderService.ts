@@ -31,6 +31,14 @@ const OrderService = {
     const res = await axios.patch(`/api/v1/order/confirm-receive/${id}`);
     return res.data;
   },
+  async UserStatistic(id: string) {
+    const res = await axios.get(`/api/v1/order/statistic/${id}`);
+    return res.data;
+  },
+  async AdminStatistic() {
+    const res = await axios.get(`/api/v1/order/admin-statistic`);
+    return res.data;
+  },
 };
 
 export default OrderService;

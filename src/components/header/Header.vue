@@ -37,6 +37,7 @@ async function handleLogout() {
     if (res.statusCode === 0) {
       isLoggedIn.value = false;
       userStore.logout();
+      window.location.reload();
     }
   } catch (error) {
     throw error;
@@ -95,12 +96,6 @@ async function handleLogout() {
             >
               Sản phẩm
             </RouterLink>
-            <a
-              href="#"
-              class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700"
-            >
-              Giới thiệu
-            </a>
           </div>
         </div>
 
@@ -222,26 +217,17 @@ async function handleLogout() {
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <RouterLink
+                    to="/user"
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
                   >
-                    Trang cá nhân</a
+                    Trang cá nhân</RouterLink
                   >
                 </MenuItem>
-                <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
-                    :class="[
-                      active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
-                    ]"
-                    >Cài đặt</a
-                  >
-                </MenuItem>
+
                 <MenuItem v-slot="{ active }">
                   <a
                     @click="ToggleModal"
@@ -318,18 +304,6 @@ async function handleLogout() {
           class="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
           >Sản phẩm</DisclosureButton
         >
-        <DisclosureButton
-          as="a"
-          href="#"
-          class="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-          >Giới thiệu</DisclosureButton
-        >
-        <DisclosureButton
-          as="a"
-          href="#"
-          class="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-          >Calendar</DisclosureButton
-        >
       </div>
       <div class="pt-4 pb-3 border-t border-gray-200">
         <div class="flex items-center px-4">
@@ -349,12 +323,7 @@ async function handleLogout() {
             class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
             >Trang cá nhân</DisclosureButton
           >
-          <DisclosureButton
-            as="a"
-            href="#"
-            class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-            >Cài đặt</DisclosureButton
-          >
+
           <DisclosureButton
             as="a"
             href="#"

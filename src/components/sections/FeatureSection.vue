@@ -12,9 +12,8 @@
         </div>
 
         <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">
-          Chúng tôi hiểu rằng việc mua một chiếc xe là quyết định quan trọng,<br />
-          và đó là lý do tại sao chúng tôi cam kết cung cấp cho bạn sự tin tưởng
-          và an tâm.
+          Chào mừng bạn đến với AutoVision - Nơi Mua Sắm Trực Tuyến Đầy Đủ Đa
+          Dạng và Chất Lượng Đỉnh Cao!
         </p>
 
         <p class="lg:w-1/2 w-full leading-relaxed text-gray-500"></p>
@@ -56,10 +55,10 @@
           </h1>
 
           <p class="text-gray-500 dark:text-gray-300">
-            AutoVision cung cấp một loạt các mẫu xe ô tô từ nhiều hãng khác
-            nhau, bao gồm xe sedan, SUV, xe bán tải, xe hybrid, và xe điện. Điều
-            này giúp khách hàng tìm kiếm chiếc xe phù hợp với nhu cầu và sở
-            thích của họ.
+            Chúng tôi cung cấp một bộ sưu tập rộng lớn từ các thương hiệu nổi
+            tiếng và xu hướng thời trang mới nhất. Cho dù bạn đang tìm kiếm đôi
+            giày thể thao thoải mái, hay giày chạy bộ đẳng cấp, chúng tôi có đủ
+            để làm hài lòng mọi sở thích và phong cách.
           </p>
 
           <a
@@ -110,9 +109,10 @@
           </h1>
 
           <p class="text-gray-500 dark:text-gray-300">
-            Chúng tôi cung cấp các tùy chọn tùy chỉnh cho mỗi mẫu xe, cho phép
-            khách hàng tùy chỉnh màu sắc, bộ nâng cấp, hệ thống âm thanh và
-            nhiều tính năng khác theo ý muốn.
+            Tại AutoVision, chúng tôi hiểu rằng mỗi người đều có gu thẩm mỹ và
+            kích thước đặc biệt của mình. Vì vậy, chúng tôi mang đến tùy chọn
+            tùy chỉnh để bạn có thể tạo ra đôi giày hoàn hảo, phản ánh cá nhân
+            của bạn.
           </p>
 
           <a
@@ -163,9 +163,10 @@
           </h1>
 
           <p class="text-gray-500 dark:text-gray-300">
-            Tất cả các xe trên AutoVision đều được kiểm tra kỹ lưỡng để đảm bảo
-            chất lượng và tính an toàn. Chúng tôi cam kết cung cấp các sản phẩm
-            chất lượng và đáng tin cậy.
+            Chất lượng là tiêu chí hàng đầu tại AutoVision. Chúng tôi luôn đảm
+            bảo rằng mỗi đôi giày được sản xuất với công nghệ tiên tiến và từ
+            những nguyên liệu chất lượng nhất. Sự chú tâm đặc biệt đến chi tiết
+            trong quá trình sản xuất.
           </p>
 
           <a

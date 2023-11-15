@@ -211,7 +211,7 @@
   </form>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { ref } from "vue";
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
 import { HangHoaTS, HinhHH } from "../../utils/allTypeTs";
@@ -219,6 +219,7 @@ import UploadImage from "./UploadImage.vue";
 import { ProductService } from "../../services";
 import { useToast } from "primevue/usetoast";
 import ProgressBar from "primevue/progressBar";
+import { ConvertErrorMessage } from "../../utils/importAllComponent";
 
 const props = defineProps({
   isUpdate: { type: Boolean },
@@ -229,7 +230,6 @@ const emit = defineEmits(["closeModal", "handleGetAllProducts"]);
 
 const toast = useToast();
 const imageToChange = ref();
-const errorUploadImage = ref();
 const isUpdateForm = ref(props.isUpdate);
 
 const isLoading = ref(false);
@@ -289,8 +289,20 @@ const handleSetHinhXoa = (imageName: string[]) => {
 };
 
 const onSubmit = handleSubmit(async (values) => {
+  // validate image
+  const isValidImage = values?.HinhUpload?.length
+    ? values.HinhUpload.length
+    : 0;
+  const isValidImageExisted = values?.HinhHH?.length ? values.HinhHH.length : 0;
+  if (isValidImage + isValidImageExisted <= 1) {
+    return toast.add({
+      severity: "warn",
+      summary: "Thiếu hình ảnh",
+      detail: "Cần upload lớn hơn 1 hình",
+      life: 2000,
+    });
+  }
   try {
-    console.log("values", values);
     isLoading.value = true;
     let res;
 
@@ -323,9 +335,12 @@ const onSubmit = handleSubmit(async (values) => {
       isLoading.value = false;
     }
   } catch (error) {
-    const err = error as Error;
-
-    console.log("error", err.message);
+    toast.add({
+      severity: "error",
+      summary: "Tạo sản phẩm",
+      detail: ConvertErrorMessage(error as Error),
+      life: 2000,
+    });
   }
 });
 </script>

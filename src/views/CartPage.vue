@@ -229,14 +229,14 @@ import CartService from "../services/cartService";
 import CartCard from "../components/cards/CartCard.vue";
 import { useUserStore } from "../stores/userStore";
 import Toast from "primevue/toast";
-
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import OrderService from "../services/orderService";
 import { useToast } from "primevue/usetoast";
 import { ConvertErrorMessage } from "../utils/importAllComponent";
+import router from "../router";
 
-const { values, setValues, errors, defineInputBinds, handleSubmit } = useForm({
+const { setValues, errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: yup.object({
     SoDienThoai: yup
       .string()
@@ -332,6 +332,7 @@ const onSubmit = handleSubmit(async (values) => {
       });
 
       handleGetCart(id.value as string);
+      setTimeout(() => router.push("/user/all-orders"), 1000);
       open.value = false;
     }
   } catch (error) {

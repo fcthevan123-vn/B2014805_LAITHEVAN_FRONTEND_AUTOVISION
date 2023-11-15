@@ -30,12 +30,16 @@
       <Column field="DiaChi" header="Thông tin sản phẩm" class="text-sm">
         <template #body="slotProps">
           <div v-for="data in slotProps.data.SoDonDH">
-            <div class="mb-4">
-              <p class="font-semibold">
+            <div class="mb-4 flex flex-col gap-1">
+              <RouterLink
+                :to="'/product/' + data.MSHH._id"
+                class="font-semibold hover:underline"
+              >
                 {{ data.MSHH.TenHH }}
-              </p>
+              </RouterLink>
+
               <button
-                class="bg-blue-500 text-white text-xs py-1 px-2 rounded-md"
+                class="bg-blue-500 w-32 text-white text-xs py-1 px-2 rounded-md"
                 @click="
                   (e) => {
                     toggle(e);
@@ -302,8 +306,9 @@ const confirm = useConfirm();
 const loading = ref(false);
 const staffStore = useStaffStore();
 const date = ref(new Date());
-const selectedStatus = ref({ name: "Chờ xác nhận", code: "Chờ xác nhận" });
+const selectedStatus = ref({ name: "Tất cả", code: "Tất cả" });
 const statuses = ref([
+  { name: "Tất cả", code: "Tất cả" },
   { name: "Chờ xác nhận", code: "Chờ xác nhận" },
   { name: "Đã huỷ", code: "Đã huỷ" },
   { name: "Đã xác nhận", code: "Đã xác nhận" },
@@ -435,7 +440,6 @@ const handleGetOrderProducts = async () => {
     );
     if (res.statusCode === 0) {
       orders.value = res.data;
-      console.log("res.data", res.data);
     }
   } catch (error) {
     toast.add({
