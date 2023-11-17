@@ -71,6 +71,7 @@ const handleLogout = async () => {
     const res = await AuthService.logout();
     if (res.statusCode === 0) {
       userStore.logout();
+      window.location.replace("/");
     }
   } catch (error) {
     throw error;

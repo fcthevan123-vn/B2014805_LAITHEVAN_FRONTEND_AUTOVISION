@@ -12,7 +12,7 @@
         </p>
       </header>
 
-      <div class="mt-8 flex items-center justify-between">
+      <InputGroup class="mt-8 mb-5 flex items-center justify-between">
         <div class="flex rounded border border-gray-100">
           <button
             class="inline-flex h-10 w-10 items-center justify-center border-e text-gray-600 transition hover:bg-gray-50 hover:text-gray-700"
@@ -53,36 +53,70 @@
           </button>
         </div>
 
-        <!-- <div>
-          <label for="SortBy" class="sr-only">SortBy</label>
+        <div class="flex items-center">
+          <input
+            v-model="searchValue"
+            type="text"
+            placeholder="Nhập tên sản phẩm"
+            class="rounded-l-xl h-9 text-sm"
+          />
+          <button class="px-2 h-9 bg-blue-600 rounded-r-xl text-white">
+            <IconSearch class="h-5"></IconSearch>
+          </button>
+        </div>
+      </InputGroup>
 
-          <select id="SortBy" class="h-10 rounded border-gray-300 text-sm">
-            <option>Sort By</option>
-            <option value="Title, DESC">Title, DESC</option>
-            <option value="Title, ASC">Title, ASC</option>
-            <option value="Price, DESC">Price, DESC</option>
-            <option value="Price, ASC">Price, ASC</option>
-          </select>
-        </div> -->
-      </div>
-
-      <ul class="mt-4 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <ul v-if="isList" class="mt-4 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <li v-for="product in products">
           <ShoeHomeCard :data="product"></ShoeHomeCard>
         </li>
       </ul>
+      <div v-else class="flex justify-center mt-16 flex-col items-center gap-5">
+        <img
+          src="../assets/images/empty_product.svg"
+          alt=""
+          style="width: 300px"
+        />
+        <p class="text-center font-base text-gray-500 italic text-xl">
+          Không tìm thấy sản phẩm nào!
+        </p>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { ProductService } from "../services";
 import ShoeHomeCard from "../components/cards/ShoeHomeCard.vue";
+import { IconSearch } from "@tabler/icons-vue";
 
-const products = ref();
+const products = ref([]);
+const searchValue = ref("");
+const isList = computed(() => {
+  return products.value.length > 0 ? true : false;
+});
 
-onMounted(async () => await handleGetAllProducts());
+onMounted(async () => {
+  await handleGetAllProducts();
+  await handleSearchProduct(searchValue.value);
+});
+
+watch(searchValue, () => {
+  setTimeout(() => handleSearchProduct(searchValue.value), 400);
+});
+
+async function handleSearchProduct(searchValue: string) {
+  try {
+    const res = await ProductService.searchProduct(searchValue);
+    if (res.statusCode === 0) {
+      products.value = res.data;
+    }
+  } catch (error) {
+    const err = error as Error;
+    console.log("error", err.message);
+  }
+}
 
 async function handleGetAllProducts() {
   try {

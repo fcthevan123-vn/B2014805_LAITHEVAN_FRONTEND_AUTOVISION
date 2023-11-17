@@ -40,11 +40,12 @@ async function handleGetAllProducts() {
         </p>
 
         <p class="lg:w-1/2 w-full leading-relaxed text-gray-500"></p>
-        <a
+        <RouterLink
+          to="/all-products"
           class="lg:w-1/2 w-full leading-relaxed text-blue-500 underline hover:text-blue-700 cursor-pointer"
         >
           Xem thêm
-        </a>
+        </RouterLink>
       </div>
       <div class="flex flex-wrap -m-4">
         <div v-for="product in products" class="xl:w-1/4 md:w-1/2 p-4">

@@ -87,6 +87,12 @@ const ProductService = {
     const res = await axios.delete(`/api/v1/product/delete/${id}`);
     return res.data;
   },
+  async searchProduct(keyWord: string) {
+    const res = await axios.get(
+      `/api/v1/product/get-products?keyWord=${keyWord}`
+    );
+    return res.data;
+  },
 };
 
 export default ProductService;

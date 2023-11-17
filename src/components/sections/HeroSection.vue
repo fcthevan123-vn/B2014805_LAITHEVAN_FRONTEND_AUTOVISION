@@ -92,10 +92,10 @@
               </div>
             </div>
 
-            <a
-              href="#"
+            <RouterLink
+              to="/all-products"
               class="inline-block rounded-xl border border-transparent bg-blue-500 px-6 py-2 text-center font-medium text-white hover:bg-blue-700"
-              >Khám phá ngay</a
+              >Khám phá ngay</RouterLink
             >
           </div>
         </div>
