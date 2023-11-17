@@ -12,6 +12,20 @@ const UserService = {
     const res = await axios.patch("/api/v1/user/change-password", data);
     return res.data;
   },
+
+  async GetAllUserByAdmin(data: { id: string }) {
+    const res = await axios.post("/api/v1/staff/all-users", data);
+    return res.data;
+  },
+
+  async DeleteUserByAdmin(data: {
+    id: string;
+    userId: string;
+    status: boolean;
+  }) {
+    const res = await axios.post("/api/v1/staff/delete-user", data);
+    return res.data;
+  },
 };
 
 export default UserService;

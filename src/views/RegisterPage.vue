@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (values) => {
         detail: res.message,
         life: 2000,
       });
-      router.push("/login");
+      setTimeout(() => router.push("/login"), 1000);
     }
   } catch (error) {
     toast.add({

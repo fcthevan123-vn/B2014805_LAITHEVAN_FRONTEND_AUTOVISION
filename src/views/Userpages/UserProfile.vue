@@ -420,12 +420,7 @@ async function getStatistic() {
       dataStatistic.value = res.data;
     }
   } catch (error) {
-    toast.add({
-      severity: "error",
-      summary: "Lấy thống kê",
-      detail: ConvertErrorMessage(error as Error),
-      life: 2000,
-    });
+    console.log("error", error);
   }
 }
 </script>

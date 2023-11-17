@@ -25,12 +25,6 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     const res = await AuthService.login(values.email, values.password);
     if (res.statusCode === 0) {
-      toast.add({
-        severity: "success",
-        summary: "Đăng nhập",
-        detail: res.message,
-        life: 2000,
-      });
       window.location.replace("/");
     }
   } catch (error) {

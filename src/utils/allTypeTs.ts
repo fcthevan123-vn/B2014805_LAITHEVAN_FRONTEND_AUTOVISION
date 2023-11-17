@@ -7,6 +7,7 @@ export type UserTS = {
   DiaChi: string;
   createdAt: string;
   updatedAt: string;
+  BiKhoa: Boolean;
   __v: number;
 };
 

@@ -17,6 +17,7 @@ import {
   AdminLoginPage,
   AdminManagerProduct,
   AdminManagerOrder,
+  AdminManagerUser,
 } from "../views/Adminpages";
 import { useStaffStore } from "../stores/staffStore";
 import { UserAllOrder, UserProfile } from "../views/Userpages";
@@ -89,6 +90,12 @@ const routes = [
         component: AdminManagerOrder,
         meta: { requireAdmin: true },
       },
+      {
+        path: "/admin/manage-users",
+        name: "adminManageUsers",
+        component: AdminManagerUser,
+        meta: { requireAdmin: true },
+      },
     ],
   },
   {
@@ -118,8 +125,8 @@ const routes = [
     ],
   },
   {
-    path: "/error",
-    name: "error",
+    path: "/:catchAll(.*)",
+    name: "notFound",
     component: ErrorPage,
   },
 ];
