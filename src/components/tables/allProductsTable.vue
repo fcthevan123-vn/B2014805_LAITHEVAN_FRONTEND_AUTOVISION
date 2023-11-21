@@ -1,13 +1,31 @@
 <template>
   <div class="card">
     <DataTable
+      v-model:filters="filters"
       paginator
       :rows="5"
       :rowsPerPageOptions="[5, 10, 20, 50]"
       showGridlines
+      dataKey="_id"
       :value="products"
+      :globalFilterFields="['TenHH']"
       tableStyle="min-width: 50rem"
     >
+      <template #header>
+        <div class="flex justify-end">
+          <div class="flex items-center">
+            <input
+              v-model="filters['global'].value"
+              type="text"
+              placeholder="Nhập tên sản phẩm"
+              class="rounded-l-xl h-9 text-sm font-normal"
+            />
+            <button class="px-2 h-9 bg-blue-600 rounded-r-xl text-white">
+              <IconSearch class="h-5"></IconSearch>
+            </button>
+          </div>
+        </div>
+      </template>
       <Column field="TenHH" header="Tên sản phẩm" class="text-sm"></Column>
 
       <Column field="Gia" header="Giá" class="text-sm">
@@ -59,6 +77,12 @@
         </template>
       </Column>
 
+      <template #empty>
+        <p class="text-sm text-center text-orange-500 font-medium italic">
+          Không có dữ liệu
+        </p>
+      </template>
+
       <template #footer>
         <p class="text-sm">
           Tổng cộng {{ products ? products.length : 0 }} sản phẩm.
@@ -72,7 +96,7 @@
       maximizable
       v-model:visible="visible"
       modal
-      header="Thêm sản phẩm mới"
+      header="Cập nhật sản phẩm"
       :style="{ width: '50rem' }"
     >
       <FormAddProduct
@@ -95,7 +119,13 @@ import { useConfirm } from "primevue/useconfirm";
 import ConfirmDialog from "primevue/confirmdialog";
 import FormAddProduct from "../../components/forms/FormAddProduct.vue";
 import { HangHoaTS } from "../../utils/allTypeTs";
+import { FilterMatchMode } from "primevue/api";
+import InputText from "primevue/inputtext";
+import { IconSearch } from "@tabler/icons-vue";
 
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 const products = ref();
 const visible = ref(false);
 const dataPassForm = ref();

@@ -73,18 +73,13 @@
       </dl>
     </div>
   </div>
-  <Toast></Toast>
 </template>
 
 <script lang="ts" setup>
-import { useToast } from "primevue/usetoast";
 import { OrderService } from "../services";
-import Toast from "primevue/toast";
 import { onMounted } from "vue";
-import { ConvertErrorMessage } from "../utils/importAllComponent";
 import { ref } from "vue";
 
-const toast = useToast();
 onMounted(() => {
   getStatistic();
 });
@@ -104,12 +99,7 @@ const getStatistic = async () => {
       statistic.value = res.data;
     }
   } catch (error) {
-    toast.add({
-      severity: "error",
-      summary: "Lấy thống kê",
-      detail: ConvertErrorMessage(error as Error),
-      life: 2000,
-    });
+    console.log("error", error);
   }
 };
 </script>

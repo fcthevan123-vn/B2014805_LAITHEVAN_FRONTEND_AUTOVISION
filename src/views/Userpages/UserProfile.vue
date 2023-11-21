@@ -362,7 +362,9 @@ const onSubmit = handleSubmit(async (values) => {
         life: 2000,
       });
       visible.value = false;
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   } catch (error) {
     toast.add({

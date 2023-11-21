@@ -63,6 +63,12 @@
         </template>
       </Column>
 
+      <template #empty>
+        <p class="text-sm text-center text-orange-500 font-medium italic">
+          Không có dữ liệu
+        </p>
+      </template>
+
       <template #footer>
         <p class="text-sm">
           Tổng cộng {{ users ? users.length : 0 }} người dùng.

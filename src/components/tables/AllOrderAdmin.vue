@@ -252,7 +252,7 @@
           dateFormat="dd/mm/yy"
           class="text-xs"
           v-model="date"
-          :minDate="new Date()"
+          :minDate="new Date(new Date().setDate(new Date().getDate() + 1))"
           showIcon
           :manualInput="false"
         />
@@ -305,7 +305,9 @@ const toast = useToast();
 const confirm = useConfirm();
 const loading = ref(false);
 const staffStore = useStaffStore();
-const date = ref(new Date());
+
+// Set ngayGH is larger than current date
+const date = ref(new Date(new Date().setDate(new Date().getDate() + 1)));
 const selectedStatus = ref({ name: "Tất cả", code: "Tất cả" });
 const statuses = ref([
   { name: "Tất cả", code: "Tất cả" },

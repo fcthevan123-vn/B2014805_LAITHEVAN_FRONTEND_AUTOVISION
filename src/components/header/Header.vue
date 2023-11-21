@@ -37,7 +37,7 @@ async function handleLogout() {
     if (res.statusCode === 0) {
       isLoggedIn.value = false;
       userStore.logout();
-      window.location.reload();
+      window.location.replace("/");
     }
   } catch (error) {
     throw error;

@@ -153,7 +153,7 @@
       <div class="grid-cols-2 col-span-2">
         <div class="rounded-xl p-3 border border-sky-500 bg-gray-50 shadow-md">
           <p class="font-semibold text-center text-lg mb-2">
-            Thông tin khách hàng
+            Thông tin người nhận
           </p>
           <form class="flex flex-col gap-5 h-full" @submit="onSubmit">
             <div>

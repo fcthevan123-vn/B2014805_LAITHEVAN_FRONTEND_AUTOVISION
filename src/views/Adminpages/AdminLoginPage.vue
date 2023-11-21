@@ -6,6 +6,7 @@ import router from "../../router";
 import { useStaffStore } from "../../stores/staffStore";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
+import { ConvertErrorMessage } from "../../utils/importAllComponent";
 
 const toast = useToast();
 const { errors, defineInputBinds, handleSubmit } = useForm({
@@ -39,8 +40,12 @@ const onSubmit = handleSubmit(async (values) => {
       // window.location.replace("/admin");
     }
   } catch (error) {
-    const err = error as Error;
-    throw err;
+    toast.add({
+      severity: "error",
+      summary: "Đăng nhập",
+      detail: ConvertErrorMessage(error as Error),
+      life: 2000,
+    });
   }
 });
 </script>
@@ -52,11 +57,13 @@ const onSubmit = handleSubmit(async (values) => {
     >
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
-          <img
-            class="h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-blue-600.svg"
-            alt="Workflow"
-          />
+          <div class="flex items-center flex-shrink-0">
+            <a
+              class="py-2 text-5xl font-bold text-blue-500 lg:inline-block"
+              href="/"
+              >AutoVision
+            </a>
+          </div>
           <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
             Đăng nhập với tài khoản admin
           </h2>
@@ -148,7 +155,7 @@ const onSubmit = handleSubmit(async (values) => {
     <div class="hidden lg:block relative w-0 flex-1">
       <img
         class="absolute inset-0 h-full w-full object-cover"
-        src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+        src="https://images.unsplash.com/photo-1554192460-c1898f833545?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt=""
       />
     </div>
