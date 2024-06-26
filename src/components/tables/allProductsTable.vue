@@ -120,7 +120,6 @@ import ConfirmDialog from "primevue/confirmdialog";
 import FormAddProduct from "../../components/forms/FormAddProduct.vue";
 import { HangHoaTS } from "../../utils/allTypeTs";
 import { FilterMatchMode } from "primevue/api";
-import InputText from "primevue/inputtext";
 import { IconSearch } from "@tabler/icons-vue";
 
 const filters = ref({
@@ -168,14 +167,6 @@ const confirmDeleteProduct = (id: string) => {
     rejectLabel: "Không",
     accept: () => {
       deleteProduct(id);
-    },
-    reject: () => {
-      toast.add({
-        severity: "error",
-        summary: "Rejected",
-        detail: "You have rejected",
-        life: 3000,
-      });
     },
   });
 };

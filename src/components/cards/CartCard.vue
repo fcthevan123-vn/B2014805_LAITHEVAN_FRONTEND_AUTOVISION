@@ -1,7 +1,11 @@
 <template>
   <div class="flex-shrink-0">
     <img
-      :src="props.data.MSHH.HinhHH[0].UrlHinh"
+      :src="
+        props.data.MSHH.HinhHH && props.data.MSHH.HinhHH[0].UrlHinh
+          ? props.data.MSHH.HinhHH[0].UrlHinh
+          : ''
+      "
       alt="error"
       class="rounded-md object-center object-cover w-24 h-24"
       :class="{
